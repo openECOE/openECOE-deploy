@@ -1,0 +1,13 @@
+[api]
+dev.api.openecoe.umh.es
+
+[webui]
+dev.www.openecoe.umh.es
+
+[chrono]
+dev.chrono.openecoe.umh.es
+
+[develop:children]
+api
+webui
+chrono

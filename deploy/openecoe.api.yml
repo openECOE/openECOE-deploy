@@ -1,0 +1,27 @@
+# Require file ansible_vault.pass with passsword string for Ansible Vault
+---
+- name: Install base dependencies
+  hosts: api
+  become: yes # This means that all tasks will be executed with sudo
+  roles:
+    - base
+    - configure
+
+- name: Get project from Github
+  hosts: api
+  become: yes
+  roles:
+    - { role: production.git-pull, when: env == 'production'}
+
+- name: Install API
+  hosts: api
+  become: yes # This means that all tasks will be executed with sudo
+  roles:
+    - openecoe.api
+
+- name: Production tasks
+  hosts: api
+  become: yes
+  roles:
+    - { role: production.nginx, when: env == 'production'}
+    - { role: production.supervisor, when: env == 'production'}

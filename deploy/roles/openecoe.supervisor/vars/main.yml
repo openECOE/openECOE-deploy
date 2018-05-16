@@ -1,0 +1,19 @@
+supervisor_unix_http_server_enable: true
+#supervisor_unix_http_server_socket_path: /var/run/supervisord.sock
+supervisor_unix_http_server_socket_path: /var/run/supervisord.sock
+
+supervisor_programs:
+  - name: '{{project_main_controller}}'
+    command: "{{venv_path}}/bin/gunicorn -b {{gunicorn_server}} -w {{app_workers}} {{project_main_controller}}:app"
+    state: present
+    configuration: |
+      directory={{project_path}}
+      user=ubuntu
+      startretries=3
+      autostart=true
+      autorestart=true
+      stopsignal=INT
+      stopasgroup=true
+      killasgroup=true
+      stopwaitsecs=60
+      environment = FLASK_APP="{{project_main_controller}}"

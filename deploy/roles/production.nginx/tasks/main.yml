@@ -1,0 +1,24 @@
+- name: Generate RSA Key
+  command: openssl genrsa \
+    -out "/etc/ssl/private/{{app_fqdn}}.pem" 2048
+  args:
+    creates: "/etc/ssl/private/{{app_fqdn}}.pem"
+
+- name: Generate CSR
+  command: openssl req \
+    -new \
+    -subj '/C=ES/ST=AL/L=Elche/O=UMN/CN={{ app_fqdn }}'
+    -key "/etc/ssl/private/{{app_fqdn}}.pem" \
+    -out "/etc/ssl/{{app_fqdn}}.csr"
+  args:
+    creates: "/etc/ssl/{{app_fqdn}}.csr"
+
+- name: Generate Self-signed Certificate
+  command: openssl req \
+    -x509 \
+    -days 1825 \
+    -key "/etc/ssl/private/{{app_fqdn}}.pem" \
+    -in "/etc/ssl/{{app_fqdn}}.csr" \
+    -out "/etc/ssl/{{app_fqdn}}.pem"
+  args:
+    creates: "/etc/ssl/{{app_fqdn}}.pem"

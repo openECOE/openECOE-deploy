@@ -1,5 +1,0 @@
-[chronoservers]
-dev.chrono.openecoe.com
-
-[develop:children]
-chronoservers
