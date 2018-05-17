@@ -5,7 +5,7 @@ Vagrant.configure("2") do |config|
   config.vm.box = "ubuntu/trusty64"
 
   config.vm.network "public_network"
-  config.vm.synced_folder "./deploy", "/tmp/deploy", mount_options: ["dmode=775,fmode=664"]
+  config.vm.synced_folder "./ansible", "/tmp/deploy", mount_options: ["dmode=775,fmode=664"]
 
   config.vm.synced_folder ".", "/vagrant", disabled: true
 
