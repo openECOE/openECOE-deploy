@@ -2,15 +2,15 @@
 # configuration for vagrant
 
 env: develop
-hostname: openecoe-api-vagrant
-app_fqdn: dev.api.openecoe.umh.es
+hostname: openecoe-webui-dev
+app_fqdn: dev.openecoe.umh.es
 
 #ansible_ssh_user: ubuntu
 #ansible_ssh_private_key_file: "{{ lookup('env', 'PWD') }}/server.pem"
 ansible_connection: local
 
 # Enviroment Config
-project_main_controller: openECOE-API
+project_main_controller: openECOE-WebUI
 project_path: "{{base_path}}/{{project_main_controller}}"
 
 venv_path: "{{base_path}}/.venv"
@@ -20,11 +20,6 @@ app_secret_key: 'f24b05095b4748a8b9d13df5cdb8d83c'
 app_debug: True
 app_testing: False
 
-bcrypt_log_rounds: 4
-sqlalchemy_track_modifications: False
-
-api_auth: False
-
-database_name: "{{project_main_controller}}_{{env}}"
-database_user: "openecoe"
-database_password: "8luz80d6OAqboKCasW2X"
+api_uri: "http://dev.api.openecoe.umh.es"
+api_route: "{{api_uri}}/api"
+api_auth_token: "{{acagranpi_uri}}/auth/tokens"

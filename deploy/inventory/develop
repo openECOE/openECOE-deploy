@@ -2,7 +2,7 @@
 dev.api.openecoe.umh.es
 
 [webui]
-dev.www.openecoe.umh.es
+dev.openecoe.umh.es
 
 [chrono]
 dev.chrono.openecoe.umh.es
