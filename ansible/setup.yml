@@ -1,12 +1,4 @@
 ---
-- import_playbook: openecoe.api.yml
-- import_playbook: openecoe.webui.yml
-- import_playbook: openecoe.chrono.yml
-
-- name: Ensure supervisor programs are started
-  supervisorctl:e
-    name: "all"
-    state: started
-    username: "{{supervisor_user}}"
-    password: "{{supervisor_password}}"
-  ignore_errors: yes
+- import_playbook: setup.api.yml
+- import_playbook: setup.webui.yml
+- import_playbook: setup.chrono.yml

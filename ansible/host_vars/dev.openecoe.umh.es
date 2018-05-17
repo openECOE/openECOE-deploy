@@ -13,7 +13,7 @@ ansible_connection: local
 project_main_controller: openECOE-WebUI
 project_path: "{{base_path}}/{{project_main_controller}}"
 
-venv_path: "{{base_path}}/.venv"
+venv_path: "{{project_path}}/.venv"
 requirements_path: "{{project_path}}/requirements.txt"
 
 app_secret_key: 'f24b05095b4748a8b9d13df5cdb8d83c'
@@ -22,4 +22,4 @@ app_testing: False
 
 api_uri: "http://dev.api.openecoe.umh.es"
 api_route: "{{api_uri}}/api"
-api_auth_token: "{{acagranpi_uri}}/auth/tokens"
+api_auth_token: "{{api_uri}}/auth/tokens"
