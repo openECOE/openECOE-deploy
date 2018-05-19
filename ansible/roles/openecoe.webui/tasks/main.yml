@@ -10,3 +10,9 @@
     virtualenv_python: python3
     requirements: "{{ requirements_path }}"
   tags: virtualenv
+
+- name: Production tasks
+  become: yes
+  roles:
+    - { role: production.nginx, when: env == 'production'}
+    - { role: production.supervisor, when: env == 'production'}
