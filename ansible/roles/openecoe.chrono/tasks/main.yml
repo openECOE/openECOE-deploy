@@ -11,8 +11,16 @@
     requirements: "{{ requirements_path }}"
   tags: virtualenv
 
-- name: Production tasks
+- name: Create nginx hosts
+  when: env == 'production'
   become: yes
-  roles:
-    - { role: production.nginx, when: env == 'production'}
-    - { role: production.supervisor, when: env == 'production'}
+  include_role:
+    name: production.nginx
+  vars:
+    nginx_vhosts: nginx_vhosts
+
+- name: Create supervisor process
+  when: env == 'production'
+  become: yes
+  include_role:
+    name: production.supervisor
