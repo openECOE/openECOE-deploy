@@ -5,3 +5,4 @@ DEBUG = {{app_debug}}
 TESTING = {{app_testing}}
 API_ROUTE = {{api_route}}
 API_AUTH_TOKEN = {{api_auth_token}}
+CHRONO_ROUTE = {{chrono_route}}
