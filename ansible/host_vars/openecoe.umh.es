@@ -29,7 +29,7 @@ api_uri: "http://api.openecoe.umh.es"
 api_route: "{{api_uri}}/api"
 api_auth_token: "{{api_uri}}/auth/tokens"
 
-chrono_route: "http://api.openecoe.umh.es:6080"
+chrono_route: "http://openecoe.umh.es:6080"
 
 app_workers: 4
 

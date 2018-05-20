@@ -3,14 +3,14 @@
 
 env: production
 hostname: openecoe-chrono
-app_fqdn: api.openecoe.umh.es
+app_fqdn: openecoe.umh.es
 app_port: 6080
 app_port_ssl: 6443
 
 ansible_connection: ssh
 ansible_user: vagrant
 ansible_port: 2252
-ansible_host: api.openecoe.umh.es
+ansible_host: openecoe.umh.es
 ansible_ssh_private_key_file: "{{ lookup('env', 'PWD') }}"
 
 # Enviroment Config
