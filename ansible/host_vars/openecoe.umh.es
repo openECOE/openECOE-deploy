@@ -19,9 +19,12 @@ git_branch: master
 app_secret_key: 'f24b05095b4748a8b9d13df5cdb8d83c'
 app_debug: False
 app_testing: False
+
 api_uri: "http://api.openecoe.umh.es"
 api_route: "{{api_uri}}/api"
 api_auth_token: "{{api_uri}}/auth/tokens"
+
+chrono_route: "http://api.openecoe.umh.es:6080"
 
 app_workers: 4
 
