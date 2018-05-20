@@ -24,3 +24,5 @@ app_testing: False
 api_uri: "http://dev.api.openecoe.umh.es:5000"
 api_route: "{{api_uri}}/api"
 api_auth_token: "{{api_uri}}/auth/tokens"
+
+chrono_route: "http://dev.chrono.openecoe.umh.es:6080"
