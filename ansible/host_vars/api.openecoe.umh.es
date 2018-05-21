@@ -4,8 +4,11 @@
 env: production
 hostname: openecoe-api
 app_fqdn: api.openecoe.umh.es
-#ansible_ssh_user: ubuntu
-#ansible_ssh_private_key_file: "{{ lookup('env', 'PWD') }}/server.pem"
+
+ansible_connection: ssh
+ansible_user: vagrant
+ansible_port: 2252
+ansible_ssh_private_key_file: "{{ lookup('env', 'PWD') }}"
 
 git_repo: "git@github.com:openECOE/openECOE-API.git"
 git_branch: master

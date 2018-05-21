@@ -1,6 +1,9 @@
 environment_config:
   FLASK_APP: "{{project_path}}/{{project_main_controller}}.py"
 
+nginx_port: "{{ app_port | default('80') }}"
+nginx_port_ssl: "{{ app_port_ssl | default('443') }}"
+
 nginx_vhosts:
   - listen: "{{nginx_port}}"
     server_name: "{{app_fqdn}}"
