@@ -15,3 +15,18 @@
 
 - include_role:
     name: geerlingguy.supervisor
+
+- name: Start service supervisord, if not running
+  become: yes
+  service:
+    name: supervisord
+    state: started
+  ignore_errors: yes
+
+- name: Start supervisor program {{project_main_controller}}
+  supervisorctl:
+    name: "{{project_main_controller}}"
+    state: restarted
+    username: "{{supervisor_user}}"
+    password: "{{supervisor_password}}"
+  ignore_errors: yes
