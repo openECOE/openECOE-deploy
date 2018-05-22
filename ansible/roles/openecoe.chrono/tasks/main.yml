@@ -10,3 +10,15 @@
     virtualenv_python: python3
     requirements: "{{ requirements_path }}"
   tags: virtualenv
+
+- name: Create nginx hosts
+  when: env == 'production'
+  become: yes
+  include_role:
+    name: production.nginx
+
+- name: Create supervisor process
+  when: env == 'production'
+  become: yes
+  include_role:
+    name: production.supervisor

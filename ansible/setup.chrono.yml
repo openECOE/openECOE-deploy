@@ -1,7 +1,7 @@
 # Require file ansible_vault.pass with passsword string for Ansible Vault
 ---
 - name: Install base dependencies
-  hosts: webui
+  hosts: chrono
   become: yes # This means that all tasks will be executed with sudo
   roles:
     - base
@@ -18,10 +18,3 @@
   become: yes # This means that all tasks will be executed with sudo
   roles:
     - openecoe.chrono
-
-- name: Production tasks
-  hosts: chrono
-  become: yes
-  roles:
-    - { role: production.nginx, when: env == 'production'}
-    - { role: production.supervisor, when: env == 'production'}
