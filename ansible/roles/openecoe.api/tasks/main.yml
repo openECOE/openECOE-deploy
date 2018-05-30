@@ -4,6 +4,12 @@
     dest: "{{project_path}}/.env"
     mode: 0644
 
+- name: make sure git is installed
+  apt:
+    name: git
+    state: present
+    update_cache: yes
+
 - name: Create virtualenv
   pip:
     virtualenv: "{{ venv_path }}"
