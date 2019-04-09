@@ -1,5 +1,13 @@
-[apiservers]
-test.api.openecoe.com
+[api]
+test.api.openecoe.umh.es
+
+[webui]
+test.openecoe.umh.es
+
+[chrono]
+test.chrono.openecoe.umh.es
 
 [test:children]
-apiservers
+api
+webui
+chrono

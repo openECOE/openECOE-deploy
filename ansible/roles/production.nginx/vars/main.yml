@@ -44,6 +44,8 @@ nginx_vhosts:
       ssl_certificate /etc/ssl/{{app_fqdn}}.pem;
       ssl_certificate_key /etc/ssl/private/{{app_fqdn}}.pem;
 
+      ssl_protocols TLSv1 TLSv1.1 TLSv1.2;
+
       location / {
           # forward application requests to the gunicorn server
           proxy_pass http://{{gunicorn_server}};

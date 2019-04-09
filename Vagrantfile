@@ -11,7 +11,7 @@ Vagrant.configure("2") do |config|
 
   config.vm.define "full" do |prod|
     prod.vm.network "private_network", ip: "192.168.11.40"
-    #prod.vm.network "forwarded_port", guest: 2252, host: 1140
+    prod.vm.network "forwarded_port", guest: 22, host: 2252
 
     #prod.ssh.port = 2232
     #prod.ssh.guest_port = 2252
@@ -19,13 +19,33 @@ Vagrant.configure("2") do |config|
     prod.vm.hostname = "openecoe"
 
     prod.vm.provision "ansible_local" do |ansible|
-      #ansible.verbose = "vvv"
+      #ansible.verbose = "v"
       ansible.limit = "production"
       ansible.provisioning_path = "/tmp/deploy"
       ansible.vault_password_file  = "ansible_vault.pass"
       #ansible.galaxy_role_file = "requeriments.yml"
       ansible.playbook = "setup.yml"
       ansible.inventory_path = "inventory/production"
+    end
+  end
+
+  config.vm.define "test", autostart: false do |prod|
+    prod.vm.network "private_network", ip: "192.168.11.50"
+    prod.vm.network "forwarded_port", guest: 22, host: 2252
+
+    #prod.ssh.port = 2232
+    #prod.ssh.guest_port = 2252
+
+    prod.vm.hostname = "openecoe"
+
+    prod.vm.provision "ansible_local" do |ansible|
+      #ansible.verbose = "v"
+      ansible.limit = "test"
+      ansible.provisioning_path = "/tmp/deploy"
+      ansible.vault_password_file  = "ansible_vault.pass"
+      #ansible.galaxy_role_file = "requeriments.yml"
+      ansible.playbook = "setup.yml"
+      ansible.inventory_path = "inventory/test"
     end
   end
 
@@ -39,7 +59,7 @@ Vagrant.configure("2") do |config|
     prod.vm.hostname = "openecoe-api"
 
     prod.vm.provision "ansible_local" do |ansible|
-      #ansible.verbose = "vvv"
+      #ansible.verbose = "v"
       ansible.limit = "api"
       ansible.provisioning_path = "/tmp/deploy"
       ansible.vault_password_file  = "ansible_vault.pass"
@@ -59,7 +79,7 @@ Vagrant.configure("2") do |config|
     prod.vm.hostname = "openecoe-webui"
 
     prod.vm.provision "ansible_local" do |ansible|
-      #ansible.verbose = "vvv"
+      #ansible.verbose = "v"
       ansible.limit = "webui"
       ansible.provisioning_path = "/tmp/deploy"
       ansible.vault_password_file  = "ansible_vault.pass"
@@ -79,7 +99,7 @@ Vagrant.configure("2") do |config|
     prod.vm.hostname = "openecoe-chrono"
 
     prod.vm.provision "ansible_local" do |ansible|
-      #ansible.verbose = "vvv"
+      #ansible.verbose = "v"
       ansible.limit = "chrono"
       ansible.provisioning_path = "/tmp/deploy"
       ansible.vault_password_file  = "ansible_vault.pass"
