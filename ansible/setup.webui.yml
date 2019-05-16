@@ -7,15 +7,9 @@
     - base
     - configure
 
-- name: Get project from Github
-  hosts: webui
-  become: yes
-  roles:
-    - { role: production.git-pull, when: env == 'production'}
-
 - name: Install WebUI
   hosts: webui
   become: yes # This means that all tasks will be executed with sudo
   roles:
-    #- openecoe.webui
+    - openecoe.webui
     - openecoe.webui.ng

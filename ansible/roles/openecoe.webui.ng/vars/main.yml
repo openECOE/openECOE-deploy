@@ -1,17 +1,16 @@
-git_repo: "git@github.com:openECOE/openECOE-WebUI-ng.git"
-git_branch: develop
-ng_main_controller: "{{project_main_controller}}_ng"
+ng_app_fqdn: ng.openecoe.umh.es
+ng_git_repo: "git@github.com:openECOE/openECOE-WebUI-ng.git"
+ng_git_branch: develop
+ng_main_controller: "openECOE-WebUI-ng"
 
-ng_project_path: "{{project_path}}_ng"
+ng_project_path: "{{base_path}}/{{ng_main_controller}}"
+ng_dist_path: "{{ng_project_path}}/dist/{{ng_main_controller}}"
+log_file: "/var/log/nginx/{{ng_main_controller}}"
 
-log_file: "/var/log/nginx/{{project_main_controller}}"
-
-nginx_port: "{{ app_port | default('80') }}"
-nginx_port_ssl: "{{ app_port_ssl | default('443') }}"
-
-nginx_vhosts:
+ng_vhosts:
   - listen: "{{nginx_port}}"
-    server_name: "{{app_fqdn}}"
+    server_name: "{{ng_app_fqdn}}"
+    root: "{{ng_dist_path}}"
     state: "present"
     filename: "{{ng_main_controller}}_{{nginx_port}}.conf"
     template: "{{ nginx_vhost_template }}"
@@ -19,13 +18,11 @@ nginx_vhosts:
     access_log: "{{log_file}}_access.log"
     error_log: "{{log_file}}_error.log"
     extra_parameters: |
-      location /ng {
-          root {{ng_project_path}};
-          index index.html index.htm;
-      }
+      try_files $uri $uri/ /index.html;
 
   - listen: "{{nginx_port_ssl}} ssl" # listen on port 443 (https)
-    server_name: "{{app_fqdn}}"
+    server_name: "{{ng_app_fqdn}}"
+    root: "{{ng_dist_path}}"
     state: "present"
     filename: "{{ng_main_controller}}_{{nginx_port_ssl}}.conf"
     template: "{{ nginx_vhost_template }}"
@@ -34,7 +31,4 @@ nginx_vhosts:
     access_log: "{{log_file}}_access.log"
     error_log: "{{log_file}}_error.log"
     extra_parameters: |
-      location /ng {
-          root {{ng_project_path}};
-          index index.html index.htm;
-      }
+      try_files $uri $uri/ /index.html;

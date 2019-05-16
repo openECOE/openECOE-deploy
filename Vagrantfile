@@ -79,7 +79,7 @@ Vagrant.configure("2") do |config|
     prod.vm.hostname = "openecoe-webui"
 
     prod.vm.provision "ansible_local" do |ansible|
-      ansible.verbose = "vvv"
+      ansible.verbose = "v"
       ansible.limit = "webui"
       ansible.provisioning_path = "/tmp/deploy"
       ansible.vault_password_file  = "ansible_vault.pass"
