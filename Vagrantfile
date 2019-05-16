@@ -2,7 +2,7 @@
 # vi: set ft=ruby :
 
 Vagrant.configure("2") do |config|
-  config.vm.box = "ubuntu/trusty64"
+  config.vm.box = "ubuntu/bionic64"
 
   config.vm.network "public_network"
   config.vm.synced_folder "./ansible", "/tmp/deploy", mount_options: ["dmode=775,fmode=664"]
@@ -79,7 +79,7 @@ Vagrant.configure("2") do |config|
     prod.vm.hostname = "openecoe-webui"
 
     prod.vm.provision "ansible_local" do |ansible|
-      #ansible.verbose = "v"
+      ansible.verbose = "vvv"
       ansible.limit = "webui"
       ansible.provisioning_path = "/tmp/deploy"
       ansible.vault_password_file  = "ansible_vault.pass"

@@ -1,0 +1,4 @@
+---
+dependencies:
+  - role: franklinkim.environment
+  - role: geerlingguy.nodejs

@@ -1,0 +1,48 @@
+- name: Install Packages
+  apt:
+    name: ['build-essential',
+           'git',
+           'mcrypt',
+           'curl',
+           'ng-common']
+    update_cache: yes
+    state: latest
+
+- name: make sure git is installed
+  apt:
+    name: git
+    state: present
+    update_cache: yes
+
+- name: Pull {{project_main_controller}} from github
+  git:
+    repo: "{{git_repo}}"
+    dest: "{{ng_project_path}}"
+    version: "{{git_branch}}"
+    key_file: "/etc/ssl/private/github_deploy_key.pem"
+    accept_hostkey: yes
+    update: yes
+    force: yes
+  tags: git
+  register: git_finished
+
+- name: Running NPM install
+  npm:
+    path: "{{ng_project_path}}"
+    state: latest
+  register: npm_finished
+  #when: git_finished.changed
+
+- name: Build Angular Prod
+  shell: npm run build --prod
+  args:
+    chdir: "{{ng_project_path}}"
+  register: ngbuild_finished
+  #when: npm_finished.changed
+
+- name: Create nginx hosts
+  when: env == 'production'
+  become: yes
+  include_role:
+    name: production.nginx
+  ignore_errors: yes

@@ -17,4 +17,5 @@
   hosts: webui
   become: yes # This means that all tasks will be executed with sudo
   roles:
-    - openecoe.webui
+    #- openecoe.webui
+    - openecoe.webui.ng

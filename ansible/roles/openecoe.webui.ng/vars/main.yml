@@ -1,0 +1,40 @@
+git_repo: "git@github.com:openECOE/openECOE-WebUI-ng.git"
+git_branch: develop
+ng_main_controller: "{{project_main_controller}}_ng"
+
+ng_project_path: "{{project_path}}_ng"
+
+log_file: "/var/log/nginx/{{project_main_controller}}"
+
+nginx_port: "{{ app_port | default('80') }}"
+nginx_port_ssl: "{{ app_port_ssl | default('443') }}"
+
+nginx_vhosts:
+  - listen: "{{nginx_port}}"
+    server_name: "{{app_fqdn}}"
+    state: "present"
+    filename: "{{ng_main_controller}}_{{nginx_port}}.conf"
+    template: "{{ nginx_vhost_template }}"
+    # write access and error logs to /var/log
+    access_log: "{{log_file}}_access.log"
+    error_log: "{{log_file}}_error.log"
+    extra_parameters: |
+      location /ng {
+          root {{ng_project_path}};
+          index index.html index.htm;
+      }
+
+  - listen: "{{nginx_port_ssl}} ssl" # listen on port 443 (https)
+    server_name: "{{app_fqdn}}"
+    state: "present"
+    filename: "{{ng_main_controller}}_{{nginx_port_ssl}}.conf"
+    template: "{{ nginx_vhost_template }}"
+
+    # write access and error logs to /var/log
+    access_log: "{{log_file}}_access.log"
+    error_log: "{{log_file}}_error.log"
+    extra_parameters: |
+      location /ng {
+          root {{ng_project_path}};
+          index index.html index.htm;
+      }
