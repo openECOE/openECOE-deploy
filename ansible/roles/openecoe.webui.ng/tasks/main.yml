@@ -6,6 +6,10 @@
 #    update_cache: yes
 #    state: latest
 
+- name: Install NodeJS
+  include_role:
+    name: geerlingguy.nodejs
+
 - name: Get project {{ng_main_controller}} from Github ({{git_repo}})
   become: yes
   include_role:
@@ -25,19 +29,19 @@
 #  when: git_finished.changed
 
 - name: Build Angular Prod
-  shell: "./node_modules/@angular/cli/bin/ng build --prod --aot"
+  shell: "./node_modules/@angular/cli/bin/ng build --prod --aot --base-href /ng/"
   args:
     chdir: "{{ng_project_path}}"
   register: ngbuild_finished
   when: npm_finished.changed
 
-- name: Create nginx hosts
-  become: yes
-  include_role:
-    name: production.nginx
-  vars:
-    nginx_vhosts: "{{ng_vhosts}}"
-  when:
-    - env == 'production'
-    - ngbuild_finished.changed
-  ignore_errors: yes
+#- name: Create nginx hosts
+#  become: yes
+#  include_role:
+#    name: production.nginx
+#  vars:
+#    nginx_vhosts: "{{ng_vhosts}}"
+#  when:
+#    - env == 'production'
+#    - ngbuild_finished.changed
+#  ignore_errors: yes

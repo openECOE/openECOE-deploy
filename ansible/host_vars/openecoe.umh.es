@@ -20,6 +20,8 @@ requirements_path: "{{project_path}}/requirements.txt"
 git_repo: "git@github.com:openECOE/openECOE-WebUI.git"
 git_branch: master
 
+
+
 # Enviroment Config
 app_secret_key: 'f24b05095b4748a8b9d13df5cdb8d83c'
 app_debug: False

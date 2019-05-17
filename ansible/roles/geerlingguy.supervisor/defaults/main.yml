@@ -1,4 +1,4 @@
----
+cd---
 # Install a specific version of Supervisor by setting it here (e.g. '3.3.1').
 supervisor_version: latest
 

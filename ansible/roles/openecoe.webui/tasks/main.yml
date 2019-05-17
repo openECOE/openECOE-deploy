@@ -21,6 +21,14 @@
     requirements: "{{ requirements_path }}"
   tags: virtualenv
 
+- name: Install Angular WebUI
+  become: yes
+  include_role:
+    name: openecoe.webui.ng
+  vars:
+    ng_base_href: "/ng"
+
+
 - name: Create nginx hosts
   when: env == 'production'
   become: yes

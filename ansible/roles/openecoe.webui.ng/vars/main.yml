@@ -1,6 +1,4 @@
-ng_app_fqdn: ng.openecoe.umh.es
 ng_git_repo: "git@github.com:openECOE/openECOE-WebUI-ng.git"
-ng_git_branch: develop
 ng_main_controller: "openECOE-WebUI-ng"
 
 ng_project_path: "{{base_path}}/{{ng_main_controller}}"
@@ -9,8 +7,7 @@ log_file: "/var/log/nginx/{{ng_main_controller}}"
 
 ng_vhosts:
   - listen: "{{nginx_port}}"
-    server_name: "{{ng_app_fqdn}}"
-    root: "{{ng_dist_path}}"
+    server_name: "{{app_fqdn}}"
     state: "present"
     filename: "{{ng_main_controller}}_{{nginx_port}}.conf"
     template: "{{ nginx_vhost_template }}"
@@ -18,6 +15,7 @@ ng_vhosts:
     access_log: "{{log_file}}_access.log"
     error_log: "{{log_file}}_error.log"
     extra_parameters: |
+      location {{ng_base_href}}
       try_files $uri $uri/ /index.html;
 
   - listen: "{{nginx_port_ssl}} ssl" # listen on port 443 (https)
