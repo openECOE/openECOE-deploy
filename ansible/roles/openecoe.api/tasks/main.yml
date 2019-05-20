@@ -1,12 +1,11 @@
 - name: Get project {{project_main_controller}} from Github ({{git_repo}})
-  become: yes
+  when: env == 'production'
   include_role:
     name: production.git-pull
   vars:
     repo: "{{git_repo}}"
     branch: "{{git_branch}}"
     path: "{{project_path}}"
-  when: env == 'production'
 
 - name: Create .env configuration file
   template:
@@ -29,13 +28,11 @@
 
 - name: Create nginx hosts
   when: env == 'production'
-  become: yes
   include_role:
     name: production.nginx
   ignore_errors: yes
 
 - name: Create supervisor process
   when: env == 'production'
-  become: yes
   include_role:
     name: production.supervisor

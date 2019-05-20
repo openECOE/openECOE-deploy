@@ -1,5 +1,4 @@
 - name: Get project {{project_main_controller}} from Github ({{git_repo}})
-  become: yes
   include_role:
     name: production.git-pull
   vars:
@@ -23,12 +22,10 @@
 
 - name: Create nginx hosts
   when: env == 'production'
-  become: yes
   include_role:
     name: production.nginx
 
 - name: Create supervisor process
   when: env == 'production'
-  become: yes
   include_role:
     name: production.supervisor

@@ -1,6 +1,11 @@
 environment_config:
   FLASK_APP: "{{project_path}}/{{project_main_controller}}.py"
 
+ng_main_controller: "openECOE-WebUI-ng"
+ng_base_href: "/ng"
+ng_project_path: "{{base_path}}/{{ng_main_controller}}"
+ng_dist_path: "{{ng_project_path}}/dist/{{ng_main_controller}}"
+
 nginx_vhosts:
   - listen: "{{nginx_port}}"
     server_name: "{{app_fqdn}}"
@@ -29,6 +34,10 @@ nginx_vhosts:
           proxy_set_header Connection "Upgrade";
           proxy_pass http://{{gunicorn_server}}/socket.io;
       }
+      location {{ng_base_href}} {
+         alias {{ng_dist_path}};
+         try_files $uri $uri/ {{ng_base_href}}/index.html;
+       }
 
   - listen: "{{nginx_port_ssl}} ssl" # listen on port 443 (https)
     server_name: "{{app_fqdn}}"
@@ -66,4 +75,8 @@ nginx_vhosts:
           proxy_set_header Upgrade $http_upgrade;
           proxy_set_header Connection "Upgrade";
           proxy_pass http://{{gunicorn_server}}/socket.io;
+      }
+      location {{ng_base_href}} {
+          alias {{ng_dist_path}};
+          try_files $uri $uri/ {{ng_base_href}}/index.html;
       }

@@ -1,5 +1,4 @@
 - name: Get project {{project_main_controller}} from Github ({{git_repo}})
-  become: yes
   include_role:
     name: production.git-pull
   vars:
@@ -22,22 +21,19 @@
   tags: virtualenv
 
 - name: Install Angular WebUI
-  become: yes
   include_role:
     name: openecoe.webui.ng
   vars:
-    ng_base_href: "/ng"
+    ng_base_href: "{{ng_base_href}}"
 
 
 - name: Create nginx hosts
   when: env == 'production'
-  become: yes
   include_role:
     name: production.nginx
   ignore_errors: yes
 
 - name: Create supervisor process
   when: env == 'production'
-  become: yes
   include_role:
     name: production.supervisor

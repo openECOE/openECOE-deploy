@@ -9,6 +9,13 @@ Vagrant.configure("2") do |config|
 
   config.vm.synced_folder ".", "/vagrant", disabled: true
 
+  config.vm.provision.provisioning_path = "/tmp/deploy"
+  config.vm.provision.vault_password_file  = "ansible_vault.pass"
+  config.vm.provision.galaxy_role_file = "requeriments.yml"
+  config.vm.provision.playbook = "setup.yml"
+  config.vm.provision.verbose =
+
+
   config.vm.define "full" do |prod|
     prod.vm.network "private_network", ip: "192.168.11.40"
     prod.vm.network "forwarded_port", guest: 22, host: 2252
@@ -86,6 +93,9 @@ Vagrant.configure("2") do |config|
       #ansible.galaxy_role_file = "requeriments.yml"
       ansible.playbook = "setup.yml"
       ansible.inventory_path = "inventory/production"
+      ansible.compatibility_mode = '2.0'
+      ansible.install_mode = "pip"
+      ansible.extra_vars = { ansible_python_interpreter:"/usr/bin/python3" }
     end
   end
 

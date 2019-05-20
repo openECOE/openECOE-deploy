@@ -1,1 +1,5 @@
 ng_base_href: "/"
+ng_main_controller: "openECOE-WebUI-ng"
+
+ng_project_path: "{{base_path}}/{{ng_main_controller}}"
+ng_dist_path: "{{ng_project_path}}/dist/{{ng_main_controller}}"
