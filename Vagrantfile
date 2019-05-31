@@ -9,13 +9,6 @@ Vagrant.configure("2") do |config|
 
   config.vm.synced_folder ".", "/vagrant", disabled: true
 
-  config.vm.provision.provisioning_path = "/tmp/deploy"
-  config.vm.provision.vault_password_file  = "ansible_vault.pass"
-  config.vm.provision.galaxy_role_file = "requeriments.yml"
-  config.vm.provision.playbook = "setup.yml"
-  config.vm.provision.verbose =
-
-
   config.vm.define "full" do |prod|
     prod.vm.network "private_network", ip: "192.168.11.40"
     prod.vm.network "forwarded_port", guest: 22, host: 2252
@@ -43,10 +36,10 @@ Vagrant.configure("2") do |config|
     #prod.ssh.port = 2232
     #prod.ssh.guest_port = 2252
 
-    prod.vm.hostname = "openecoe"
+    prod.vm.hostname = "openecoe-test"
 
     prod.vm.provision "ansible_local" do |ansible|
-      #ansible.verbose = "v"
+      ansible.verbose = "vv"
       ansible.limit = "test"
       ansible.provisioning_path = "/tmp/deploy"
       ansible.vault_password_file  = "ansible_vault.pass"
