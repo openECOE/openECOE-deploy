@@ -38,3 +38,5 @@ supervisor_inet_http_server_enable: false
 
 gunicorn_server: "localhost:8080"
 gunicorn_module: "{{project_main_controller}}:app"
+
+ng_config: "test"

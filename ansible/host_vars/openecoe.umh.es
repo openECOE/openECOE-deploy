@@ -20,6 +20,7 @@ requirements_path: "{{project_path}}/requirements.txt"
 git_repo: "git@github.com:openECOE/openECOE-WebUI.git"
 git_branch: master
 
+ng_config: "prod"
 
 
 # Enviroment Config

@@ -28,7 +28,7 @@
 #  when: git_finished.changed
 
 - name: Build Angular Prod
-  shell: "./node_modules/@angular/cli/bin/ng build --prod --aot --base-href /ng/"
+  shell: "./node_modules/@angular/cli/bin/ng build --configuration={{ng_config}} --aot --base-href /ng/"
   args:
     chdir: "{{ng_project_path}}"
   register: ngbuild_finished
