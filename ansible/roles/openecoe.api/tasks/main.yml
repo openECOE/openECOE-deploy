@@ -26,6 +26,32 @@
     requirements: "{{ requirements_path }}"
   tags: virtualenv
 
+- name: Upgrade API DB
+  shell: "{{ venv_path }}/bin/flask db upgrade"
+  args:
+    chdir: "{{project_path}}"
+  environment:
+    FLASK_APP: "{{project_main_controller}}.py"
+
+- name: Create default Organization
+  shell: "{{ venv_path }}/bin/flask create_orga --name {{organization}}"
+  args:
+    chdir: "{{project_path}}"
+  environment:
+    FLASK_APP: "{{project_main_controller}}.py"
+  ignore_errors: yes
+  tags: createorga
+
+- name: Create default admin users
+  shell: "{{ venv_path }}/bin/flask create_user --email {{item.value.email}} --password {{item.value.password}} --name  {{item.value.name}} --surname {{item.value.surname}} --admin"
+  args:
+    chdir: "{{project_path}}"
+  environment:
+    FLASK_APP: "{{project_main_controller}}.py"
+  ignore_errors: yes
+  tags: createusers
+  with_dict: "{{admin_users}}"
+
 - name: Create nginx hosts
   when: env == 'production'
   include_role:

@@ -13,3 +13,12 @@ supervisor_inet_http_server_port: '*:9001'
 
 supervisor_started: false
 nginx_remove_default_vhost: true
+
+admin_users:
+  admin:
+    email: admin@openecoe.es
+    name: Admin
+    surname: OpenECOE
+    password: 8luz80d6OAqboKCasW2X
+
+organization: "UMH"
