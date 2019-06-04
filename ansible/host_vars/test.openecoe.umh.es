@@ -26,7 +26,7 @@ api_uri: "http://localhost:8000"
 api_route: "{{api_uri}}/api"
 api_auth_token: "{{api_uri}}/auth/tokens"
 
-chrono_route: "http://openecoe.umh.es:6080"
+chrono_route: "http://{{app_fqdn}}:6080"
 
 app_workers: 1
 
@@ -38,3 +38,5 @@ supervisor_inet_http_server_enable: false
 
 gunicorn_server: "localhost:8080"
 gunicorn_module: "{{project_main_controller}}:app"
+
+ng_config: "test"

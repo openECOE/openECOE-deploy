@@ -1,54 +1,82 @@
 environment_config:
   FLASK_APP: "{{project_path}}/{{project_main_controller}}.py"
 
-#nginx_port: "{{ app_port | default('80') }}"
-#nginx_port_ssl: "{{ app_port_ssl | default('443') }}"
-#
-#nginx_vhosts:
-#  - listen: "{{nginx_port}}"
-#    server_name: "{{app_fqdn}}"
-#    state: "present"
-#    filename: "{{project_main_controller}}_{{nginx_port}}.conf"
-#    template: "{{ nginx_vhost_template }}"
-#    extra_parameters: |
-#      location / {
-#          # forward application requests to the gunicorn server
-#          proxy_pass http://{{gunicorn_server}};
-#          proxy_redirect off;
-#          proxy_set_header Host $host;
-#          proxy_set_header X-Real-IP $remote_addr;
-#          proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
-#      }
-#      location /static {
-#          # handle static files directly, without forwarding to the application
-#          alias {{project_path}}/app/static;
-#          expires 30d;
-#      }
-#
-#  - listen: "{{nginx_port_ssl}} ssl" # listen on port 443 (https)
-#    server_name: "{{app_fqdn}}"
-#    state: "present"
-#    filename: "{{project_main_controller}}_{{nginx_port_ssl}}.conf"
-#    template: "{{ nginx_vhost_template }}"
-#
-#    # write access and error logs to /var/log
-#    access_log: "/var/log/nginx/{{project_main_controller}}_access.log"
-#    error_log: "/var/log/nginx/{{project_main_controller}}_error.log"
-#    extra_parameters: |
-#      # location of the self-signed SSL certificate
-#      ssl_certificate /etc/ssl/{{app_fqdn}}.pem;
-#      ssl_certificate_key /etc/ssl/private/{{app_fqdn}}.pem;
-#
-#      location / {
-#          # forward application requests to the gunicorn server
-#          proxy_pass http://{{gunicorn_server}};
-#          proxy_redirect off;
-#          proxy_set_header Host $host;
-#          proxy_set_header X-Real-IP $remote_addr;
-#          proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
-#      }
-#      location /static {
-#          # handle static files directly, without forwarding to the application
-#          alias {{project_path}}/app/static;
-#          expires 30d;
-#      }
+ng_main_controller: "openECOE-WebUI-ng"
+ng_base_href: "/ng"
+ng_project_path: "{{base_path}}/{{ng_main_controller}}"
+ng_dist_path: "{{ng_project_path}}/dist/{{ng_main_controller}}"
+
+nginx_vhosts:
+  - listen: "{{nginx_port}}"
+    server_name: "{{app_fqdn}}"
+    state: "present"
+    filename: "{{project_main_controller}}_{{nginx_port}}.conf"
+    template: "{{ nginx_vhost_template }}"
+    extra_parameters: |
+      location / {
+          # forward application requests to the gunicorn server
+          proxy_pass http://{{gunicorn_server}};
+          proxy_redirect off;
+          proxy_set_header Host $host;
+          proxy_set_header X-Real-IP $remote_addr;
+          proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+      }
+      location /static {
+          # handle static files directly, without forwarding to the application
+          alias {{project_path}}/app/static;
+          expires 30d;
+      }
+      location /socket.io {
+          include proxy_params;
+          proxy_http_version 1.1;
+          proxy_buffering off;
+          proxy_set_header Upgrade $http_upgrade;
+          proxy_set_header Connection "Upgrade";
+          proxy_pass http://{{gunicorn_server}}/socket.io;
+      }
+      location {{ng_base_href}} {
+         alias {{ng_dist_path}};
+         try_files $uri $uri/ {{ng_base_href}}/index.html;
+       }
+
+  - listen: "{{nginx_port_ssl}} ssl" # listen on port 443 (https)
+    server_name: "{{app_fqdn}}"
+    state: "present"
+    filename: "{{project_main_controller}}_{{nginx_port_ssl}}.conf"
+    template: "{{ nginx_vhost_template }}"
+
+    # write access and error logs to /var/log
+    access_log: "/var/log/nginx/{{project_main_controller}}_access.log"
+    error_log: "/var/log/nginx/{{project_main_controller}}_error.log"
+    extra_parameters: |
+      # location of the self-signed SSL certificate
+      ssl_certificate /etc/ssl/{{app_fqdn}}.pem;
+      ssl_certificate_key /etc/ssl/private/{{app_fqdn}}.pem;
+
+      ssl_protocols TLSv1 TLSv1.1 TLSv1.2;
+
+      location / {
+          # forward application requests to the gunicorn server
+          proxy_pass http://{{gunicorn_server}};
+          proxy_redirect off;
+          proxy_set_header Host $host;
+          proxy_set_header X-Real-IP $remote_addr;
+          proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+      }
+      location /static {
+          # handle static files directly, without forwarding to the application
+          alias {{project_path}}/app/static;
+          expires 30d;
+      }
+      location /socket.io {
+          include proxy_params;
+          proxy_http_version 1.1;
+          proxy_buffering off;
+          proxy_set_header Upgrade $http_upgrade;
+          proxy_set_header Connection "Upgrade";
+          proxy_pass http://{{gunicorn_server}}/socket.io;
+      }
+      location {{ng_base_href}} {
+          alias {{ng_dist_path}};
+          try_files $uri $uri/ {{ng_base_href}}/index.html;
+      }

@@ -30,9 +30,9 @@
 
 - name: Pull {{project_main_controller}} from github
   git:
-    repo: "{{git_repo}}"
-    dest: "{{project_path}}"
-    version: "{{git_branch}}"
+    repo: "{{repo}}"
+    dest: "{{path}}"
+    version: "{{branch}}"
     key_file: "/etc/ssl/private/github_deploy_key.pem"
     accept_hostkey: yes
     update: yes

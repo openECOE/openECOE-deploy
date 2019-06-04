@@ -2,7 +2,7 @@
 # vi: set ft=ruby :
 
 Vagrant.configure("2") do |config|
-  config.vm.box = "ubuntu/trusty64"
+  config.vm.box = "ubuntu/bionic64"
 
   config.vm.network "public_network"
   config.vm.synced_folder "./ansible", "/tmp/deploy", mount_options: ["dmode=775,fmode=664"]
@@ -36,10 +36,10 @@ Vagrant.configure("2") do |config|
     #prod.ssh.port = 2232
     #prod.ssh.guest_port = 2252
 
-    prod.vm.hostname = "openecoe"
+    prod.vm.hostname = "openecoe-test"
 
     prod.vm.provision "ansible_local" do |ansible|
-      #ansible.verbose = "v"
+      ansible.verbose = "vv"
       ansible.limit = "test"
       ansible.provisioning_path = "/tmp/deploy"
       ansible.vault_password_file  = "ansible_vault.pass"
@@ -79,13 +79,16 @@ Vagrant.configure("2") do |config|
     prod.vm.hostname = "openecoe-webui"
 
     prod.vm.provision "ansible_local" do |ansible|
-      #ansible.verbose = "v"
+      ansible.verbose = "v"
       ansible.limit = "webui"
       ansible.provisioning_path = "/tmp/deploy"
       ansible.vault_password_file  = "ansible_vault.pass"
       #ansible.galaxy_role_file = "requeriments.yml"
       ansible.playbook = "setup.yml"
       ansible.inventory_path = "inventory/production"
+      ansible.compatibility_mode = '2.0'
+      ansible.install_mode = "pip"
+      ansible.extra_vars = { ansible_python_interpreter:"/usr/bin/python3" }
     end
   end
 

@@ -7,12 +7,6 @@
     - base
     - configure
 
-- name: Get project from Github
-  hosts: chrono
-  become: yes
-  roles:
-    - { role: production.git-pull, when: env == 'production'}
-
 - name: Install Chrono
   hosts: chrono
   become: yes # This means that all tasks will be executed with sudo

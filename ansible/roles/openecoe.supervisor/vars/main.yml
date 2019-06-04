@@ -4,7 +4,7 @@ supervisor_unix_http_server_socket_path: /var/run/supervisord.sock
 
 supervisor_programs:
   - name: '{{project_main_controller}}'
-    command: "{{venv_path}}/bin/gunicorn -b {{gunicorn_server}} -w {{app_workers}} {{project_main_controller}}:app"
+    command: "{{venv_path}}/bin/gunicorn -b {{gunicorn_server}} -w {{app_workers}} {{project_main_controller}}:app --log-file=-"
     state: present
     configuration: |
       directory={{project_path}}
