@@ -5,10 +5,11 @@ env: production
 hostname: openecoe-api
 app_fqdn: api.openecoe.umh.es
 
-// ansible_connection: ssh
-// ansible_user: vagrant
-// ansible_port: 2252
-// ansible_ssh_private_key_file: "{{ lookup('env', 'HOME') }}/.ssh/openecoe_private_key"
+ansible_connection: ssh
+ansible_user: vagrant
+ansible_port: 2252
+ansible_host: openecoe.umh.es
+ansible_ssh_private_key_file: "{{ lookup('env', 'HOME') }}/.ssh/openecoe_private_key"
 
 git_repo: "git@github.com:openECOE/openECOE-API.git"
 git_branch: master

@@ -32,13 +32,18 @@
     chdir: "{{project_path}}"
   environment:
     FLASK_APP: "{{project_main_controller}}.py"
+    LC_ALL: C.UTF-8
+    LANG: C.UTF-8
+  tags: upgradeAPIDB
 
 - name: Create default Organization
-  shell: "{{ venv_path }}/bin/flask create_orga --name {{organization}}"
+  shell: "{{ venv_path }}/bin/flask create_orga --name '{{organization}}'"
   args:
     chdir: "{{project_path}}"
   environment:
     FLASK_APP: "{{project_main_controller}}.py"
+    LC_ALL: C.UTF-8
+    LANG: C.UTF-8
   ignore_errors: yes
   tags: createorga
 
@@ -48,6 +53,8 @@
     chdir: "{{project_path}}"
   environment:
     FLASK_APP: "{{project_main_controller}}.py"
+    LC_ALL: C.UTF-8
+    LANG: C.UTF-8
   ignore_errors: yes
   tags: createusers
   with_dict: "{{admin_users}}"

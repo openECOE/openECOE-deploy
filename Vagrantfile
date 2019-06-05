@@ -26,6 +26,7 @@ Vagrant.configure("2") do |config|
       #ansible.galaxy_role_file = "requeriments.yml"
       ansible.playbook = "setup.yml"
       ansible.inventory_path = "inventory/production"
+      ansible.extra_vars = { ansible_python_interpreter:"/usr/bin/python3" }
     end
   end
 
@@ -46,6 +47,7 @@ Vagrant.configure("2") do |config|
       #ansible.galaxy_role_file = "requeriments.yml"
       ansible.playbook = "setup.yml"
       ansible.inventory_path = "inventory/test"
+      ansible.extra_vars = { ansible_python_interpreter:"/usr/bin/python3" }
     end
   end
 
@@ -66,6 +68,7 @@ Vagrant.configure("2") do |config|
       #ansible.galaxy_role_file = "requeriments.yml"
       ansible.playbook = "setup.yml"
       ansible.inventory_path = "inventory/production"
+      ansible.extra_vars = { ansible_python_interpreter:"/usr/bin/python3" }
     end
   end
 
@@ -109,6 +112,7 @@ Vagrant.configure("2") do |config|
       #ansible.galaxy_role_file = "requeriments.yml"
       ansible.playbook = "setup.yml"
       ansible.inventory_path = "inventory/production"
+      ansible.extra_vars = { ansible_python_interpreter:"/usr/bin/python3" }
     end
   end
 
