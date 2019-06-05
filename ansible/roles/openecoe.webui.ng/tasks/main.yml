@@ -27,9 +27,16 @@
   register: npm_finished
 #  when: git_finished.changed
 
-- name: Build Angular Prod
-  shell: "./node_modules/@angular/cli/bin/ng build --configuration={{ng_config}} --aot --base-href /ng/"
+- name: Build Angular Configuration
+  shell: "./node_modules/@angular/cli/bin/ng build --configuration={{ng_config}} --aot --base-href {{ng_base_href}}/"
   args:
     chdir: "{{ng_project_path}}"
   register: ngbuild_finished
-  when: npm_finished.changed
+  when: env != 'production'
+
+- name: Build Angular Prod ({{ng_base_href}})
+  shell: "./node_modules/@angular/cli/bin/ng build --prod --aot --base-href {{ng_base_href}}/"
+  args:
+    chdir: "{{ng_project_path}}"
+  register: ngbuild_finished
+  when: env == 'production'

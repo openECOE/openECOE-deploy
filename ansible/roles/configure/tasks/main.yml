@@ -9,6 +9,7 @@
 
   - name: get github.com public key
     command: /usr/bin/ssh-keyscan github.com
+    check_mode: no
     register: github_keyscan
 
   - name: github key is recognized

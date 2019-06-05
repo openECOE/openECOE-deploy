@@ -7,11 +7,11 @@ app_fqdn: openecoe.umh.es
 app_port: 6080
 app_port_ssl: 6443
 
-// ansible_connection: ssh
-// ansible_user: vagrant
-// ansible_port: 2252
-// ansible_host: openecoe.umh.es
-// ansible_ssh_private_key_file: "{{ lookup('env', 'HOME') }}/.ssh/openecoe_private_key"
+ansible_connection: ssh
+ansible_user: vagrant
+ansible_port: 2252
+ansible_host: openecoe.umh.es
+ansible_ssh_private_key_file: "{{ lookup('env', 'HOME') }}/.ssh/openecoe_private_key"
 
 # Enviroment Config
 project_main_controller: openECOE-CHRONO
