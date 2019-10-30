@@ -1,3 +1,4 @@
+<img src="/doc/logoUMH.jpg" align="right" width="300" ></a>
 # openECOE-deploy
 
 Realiza el despliegue de los módulos necesarios para la **openECOE**:
@@ -52,7 +53,7 @@ vagrant up api
 vagrant up webui
 vagrant up chrono
 ```
-![LogoUMH](/doc/logoUMH.jpg)
+
 <!--stackedit_data:
 eyJoaXN0b3J5IjpbLTk1MDIzNzg3LC0xNDczNTU2MjE3XX0=
 -->
