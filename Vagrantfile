@@ -23,7 +23,6 @@ Vagrant.configure("2") do |config|
       #ansible.verbose = "v"
       ansible.limit = "production"
       ansible.provisioning_path = "/tmp/deploy"
-      ansible.vault_password_file  = "ansible_vault.pass"
       #ansible.galaxy_role_file = "requeriments.yml"
       ansible.playbook = "setup.yml"
       ansible.inventory_path = "inventory/production"
@@ -65,7 +64,6 @@ Vagrant.configure("2") do |config|
       #ansible.verbose = "v"
       ansible.limit = "api"
       ansible.provisioning_path = "/tmp/deploy"
-      ansible.vault_password_file  = "ansible_vault.pass"
       #ansible.galaxy_role_file = "requeriments.yml"
       ansible.playbook = "setup.yml"
       ansible.inventory_path = "inventory/production"
@@ -84,9 +82,8 @@ Vagrant.configure("2") do |config|
 
     prod.vm.provision "ansible_local" do |ansible|
       ansible.verbose = "v"
-      ansible.limit = "webui"
+      ansible.limit = "webui-ng"
       ansible.provisioning_path = "/tmp/deploy"
-      ansible.vault_password_file  = "ansible_vault.pass"
       #ansible.galaxy_role_file = "requeriments.yml"
       ansible.playbook = "setup.yml"
       ansible.inventory_path = "inventory/production"
