@@ -1,11 +1,11 @@
 [api]
-test.api.openecoe.umh.es
+test.api.openecoe.yml
 
 [webui]
-test.openecoe.umh.es
+test.openecoe.yml
 
 [chrono]
-test.chrono.openecoe.umh.es
+test.chrono.openecoe.yml
 
 [test:children]
 api

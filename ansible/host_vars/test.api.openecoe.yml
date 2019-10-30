@@ -3,7 +3,7 @@
 
 env: production
 hostname: openecoe-api
-app_fqdn: test.api.openecoe.umh.es
+app_fqdn: test.api.openecoe
 
 ansible_connection: local
 

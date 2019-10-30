@@ -1,11 +1,11 @@
 [api]
-dev.api.openecoe.umh.es
+dev.api.openecoe.yml
 
 [webui]
-dev.openecoe.umh.es
+dev.openecoe.yml
 
 [chrono]
-dev.chrono.openecoe.umh.es
+dev.chrono.openecoe.yml
 
 [develop:children]
 api
