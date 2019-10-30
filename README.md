@@ -52,7 +52,7 @@ vagrant up api
 vagrant up webui
 vagrant up chrono
 ```
+![LogoUMH](/doc/logoUMH.jpg)
 <!--stackedit_data:
-eyJoaXN0b3J5IjpbLTE1OTA3Nzc3NTIsLTE0NzM1NTYyMTddfQ
-==
+eyJoaXN0b3J5IjpbLTk1MDIzNzg3LC0xNDczNTU2MjE3XX0=
 -->
