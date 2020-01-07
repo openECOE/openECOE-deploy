@@ -16,6 +16,18 @@ Realiza el despliegue de los módulos necesarios para la **openECOE**:
 	- 30GB Disco duro
 	- Ubuntu 16.04 en adelante
 
+## Configuración parámetros de despliegue
+Los parámetros de configuración se encuentran en el archivo:
+**/ansible/group_vars/all.yml**
+
+Parámetros de configuración:
+- **app_secret_key:** Es conveniente modificarla por cualquier número aleatorio
+- **organization:** Nombre de la organización
+- **domain:** Dominio en el que funcionara openECOE
+- **admin_users:** Lista de Administradores que se crearan automáticamente en el despliegue
+- **database_user:** nombre de usuario root que se usara al crear la base de datos
+- **database_password:** contraseña del usuario root de la base de datos
+
 ## Despliegue mediante ansible
 
 Según si el despliegue se realiza localmente o remotamente se debe modificar el parámetro de configuración ansible_connection ubicado en */ansible/group_vars/all.yml*
