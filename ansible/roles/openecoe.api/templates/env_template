@@ -7,3 +7,4 @@ BCRYPT_LOG_ROUNDS = {{bcrypt_log_rounds}}
 SQLALCHEMY_TRACK_MODIFICATIONS = {{sqlalchemy_track_modifications}}
 API_AUTH = {{api_auth}}
 SQLALCHEMY_DATABASE_URI = mysql+pymysql://{{database_user}}:{{database_password}}@localhost/{{database_name}}
+CHRONO_ROUTE = {{chrono_route}}

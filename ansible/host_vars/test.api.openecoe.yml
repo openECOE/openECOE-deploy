@@ -3,7 +3,7 @@
 
 env: production
 hostname: openecoe-api
-app_fqdn: test.api.openecoe
+app_fqdn: "test.{{domain}}"
 
 ansible_connection: local
 
@@ -39,3 +39,5 @@ supervisor_inet_http_server_enable: false
 
 gunicorn_server: "localhost:8000"
 gunicorn_module: "{{project_main_controller}}:app"
+
+chrono_route: "http://{{app_fqdn}}:6080"

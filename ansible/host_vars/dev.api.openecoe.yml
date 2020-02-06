@@ -3,7 +3,7 @@
 
 env: develop
 hostname: openecoe-api-vagrant
-app_fqdn: dev.api.openecoe
+app_fqdn: "dev.{{domain}}"
 app_port: 5000
 
 #ansible_ssh_user: ubuntu
@@ -27,3 +27,5 @@ sqlalchemy_track_modifications: False
 api_auth: False
 
 database_name: "{{project_main_controller}}_{{env}}"
+
+chrono_route: "http://{{app_fqdn}}:6080"
