@@ -14,7 +14,7 @@
   include_role:
     name: production.git-pull
   vars:
-    repo: "{{ng_git_repo}}"
+    repo: "{{git_repo}}"
     branch: "{{git_branch}}"
     path: "{{ng_project_path}}"
   when: env == 'production'
@@ -27,9 +27,24 @@
   register: npm_finished
 #  when: git_finished.changed
 
-- name: Build Angular Prod
-  shell: "./node_modules/@angular/cli/bin/ng build --configuration={{ng_config}} --aot --base-href /ng/"
+- name: Build Angular Configuration
+  shell: "./node_modules/@angular/cli/bin/ng build --configuration={{ng_config}} --aot "
   args:
     chdir: "{{ng_project_path}}"
   register: ngbuild_finished
-  when: npm_finished.changed
+  when: env != 'production'
+
+- name: Build Angular Prod
+  shell: "./node_modules/@angular/cli/bin/ng build --prod --aot"
+  args:
+    chdir: "{{ng_project_path}}"
+  register: ngbuild_finished
+  when: env == 'production'
+
+- name: Create nginx hosts
+  when: env == 'production'
+  include_role:
+    name: production.nginx
+  vars:
+    nginx_vhosts: "{{vhosts}}"
+  tags: nginx_webui

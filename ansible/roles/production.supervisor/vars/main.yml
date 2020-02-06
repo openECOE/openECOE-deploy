@@ -8,7 +8,6 @@ supervisor_programs:
     state: present
     configuration: |
       directory={{project_path}}
-      user=ubuntu
       autostart=true
       autorestart=true
       stopasgroup=true

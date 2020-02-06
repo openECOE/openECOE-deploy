@@ -1,4 +1,4 @@
 ---
 - import_playbook: setup.api.yml
-- import_playbook: setup.webui.yml
+- import_playbook: setup.webui.ng.yml
 - import_playbook: setup.chrono.yml

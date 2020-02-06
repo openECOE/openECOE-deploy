@@ -22,3 +22,7 @@
     -out "/etc/ssl/{{app_fqdn}}.pem"
   args:
     creates: "/etc/ssl/{{app_fqdn}}.pem"
+
+- name: Create hosts {{app_fqdn}}
+  include_role:
+    name: geerlingguy.nginx

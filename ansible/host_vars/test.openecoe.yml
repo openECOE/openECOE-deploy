@@ -3,7 +3,7 @@
 
 env: production
 hostname: openecoe-webui
-app_fqdn: test.openecoe.umh.es
+app_fqdn: test.openecoe
 
 ansible_connection: local
 
@@ -14,7 +14,7 @@ project_path: "{{base_path}}/{{project_main_controller}}"
 venv_path: "{{project_path}}/.venv"
 requirements_path: "{{project_path}}/requirements.txt"
 
-git_repo: "git@github.com:openECOE/openECOE-WebUI.git"
+git_repo: "git@github.com:openECOE/openECOE-WebUI-ng.git"
 git_branch: develop
 
 # Enviroment Config
