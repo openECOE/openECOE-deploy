@@ -1,6 +1,6 @@
 ---
 - src: geerlingguy.mysql
-  version: "2.9.0"
+  version: "2.9.5"
   state: present
 
 - src: geerlingguy.pip
