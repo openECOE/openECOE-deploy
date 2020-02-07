@@ -3,7 +3,7 @@
 
 env: develop
 hostname: openecoe-chrono-dev
-app_fqdn: dev.api.openecoe.com
+app_fqdn: "dev.chrono.{{domain}}"
 app_port: 6080
 
 ansible_connection: local

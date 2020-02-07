@@ -3,7 +3,7 @@
 
 env: production
 hostname: openecoe-chrono
-app_fqdn: test.openecoe
+app_fqdn: "test.chrono.{{domain}}"
 app_port: 6080
 app_port_ssl: 6443
 

@@ -3,7 +3,7 @@
 
 env: develop
 hostname: openecoe-webui-dev
-app_fqdn: dev.openecoe
+app_fqdn: "dev.{{domain}}"
 app_port: 5080
 
 #ansible_ssh_user: ubuntu
