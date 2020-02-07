@@ -28,4 +28,4 @@ api_auth: False
 
 database_name: "{{project_main_controller}}_{{env}}"
 
-chrono_route: "http://{{app_fqdn}}:6080"
+chrono_route: "http://dev.chrono.{{domain}}:6080"
