@@ -48,23 +48,6 @@ Ejecutar Ansible playbook para comenzar el despliegue
 
     ansible-playbook -b -i "inventory/production" -l "production" setup.yml -v --extra-vars "ansible_sudo_pass=[sudopass]"
 
-## Creación maquina virtual con Vagrant
-
-Instalar vagrant desde la página oficial
-
-Con la configuración actual del fichero **Vagrantfile** se pueden crear varias configuraciones de máquinas virtuales.
-
-Todos los módulos
-```
-vagrant up full
-```
-
-Módulos individuales
-```
-vagrant up api
-vagrant up webui
-vagrant up chrono
-```
 ## Licencia
 Copyright (c) 2019 Universidad Miguel Hernandez de Elche
 
