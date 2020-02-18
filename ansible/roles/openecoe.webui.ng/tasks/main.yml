@@ -20,6 +20,13 @@
   when: env == 'production'
   register: git_finished
 
+- name: Create environment configuration file
+  template:
+    src: environment.prod.ts
+    dest: "{{ng_project_path}}/src/environments/environment.prod.ts"
+    mode: 0644
+    force: yes
+
 - name: Running NPM install
   npm:
     path: "{{ng_project_path}}"
