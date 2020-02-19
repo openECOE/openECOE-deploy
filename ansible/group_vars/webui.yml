@@ -1,9 +1,7 @@
 ---
-# configuration for production
-
-env: production
-hostname: openecoe-webui
+hostname: webui-openecoe
 app_fqdn: "{{domain}}"
+app_port: 80
 
 #ansible_connection: ssh
 #ansible_user: vagrant
@@ -21,8 +19,6 @@ requirements_path: "{{project_path}}/requirements.txt"
 git_repo: "https://github.com/openECOE/openECOE-WebUI-ng.git"
 git_branch: master
 
-ng_config: "prod"
-
 # Enviroment Config
 app_debug: False
 app_testing: False
@@ -32,11 +28,3 @@ api_route: "{{api_uri}}/api"
 api_auth_token: "{{api_uri}}/auth/tokens"
 
 chrono_route: "http://{{domain}}:6080"
-
-app_workers: 1
-
-#Deactivate supervisor http server in production
-supervisor_inet_http_server_enable: false
-
-gunicorn_server: "localhost:8080"
-gunicorn_module: "{{project_main_controller}}:app"

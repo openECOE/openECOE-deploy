@@ -21,3 +21,21 @@
     pip:
       name: setuptools
       executable: pip3
+
+  - name: get github.com public key
+    command: /usr/bin/ssh-keyscan github.com
+    check_mode: no
+    register: github_keyscan
+
+  - name: github key is recognized
+    lineinfile: dest=/etc/ssh/ssh_known_hosts
+      create=yes
+      regexp='^github.com'
+      line="{{ github_keyscan.stdout }}"
+
+  - name: keep ssh agent forwarding under sudo
+    lineinfile: dest=/etc/sudoers
+      insertafter='^Defaults'
+      line='Defaults env_keep += "SSH_AUTH_SOCK"'
+      state=present
+      validate='visudo -cf %s'

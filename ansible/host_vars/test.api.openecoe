@@ -1,0 +1,22 @@
+---
+# configuration for testing
+# Organization settings
+organization: "TEST UMH"
+domain: test.openecoe.umh.es
+routes:
+  protocol: "http"
+  webui:
+    url: "{{domain}}"
+    port: 80
+  api:
+    url: "api.{{domain}}"
+    port: 80
+  chrono:
+    url: "chrono.{{domain}}"
+    port: 6080
+
+hostname: openecoe-api-test
+app_fqdn: "{{routes.api.url}}"
+app_port: "{{routes.api.port}}"
+
+chrono_route: "{{routes.protocol}}://{{routes.chrono.url}}:{{routes.chrono.port}}"

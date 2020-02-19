@@ -6,9 +6,3 @@
   roles:
     - base
     - configure
-
-- name: Install WebUI
-  hosts: webui
-  become: yes # This means that all tasks will be executed with sudo
-  roles:
-    - openecoe.webui.ng

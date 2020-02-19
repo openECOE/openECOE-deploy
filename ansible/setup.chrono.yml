@@ -7,8 +7,3 @@
     - base
     - configure
 
-- name: Install Chrono
-  hosts: chrono
-  become: yes # This means that all tasks will be executed with sudo
-  roles:
-    - openecoe.chrono

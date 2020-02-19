@@ -7,8 +7,3 @@
     - base
     - configure
 
-- name: Install API
-  hosts: api
-  become: yes # This means that all tasks will be executed with sudo
-  roles:
-    - openecoe.api

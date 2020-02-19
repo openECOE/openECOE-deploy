@@ -1,2 +1,4 @@
 nginx_port: "{{ app_port | default('80') }}"
 nginx_port_ssl: "{{ app_port_ssl | default('443') }}"
+
+nginx_remove_default_vhost: true

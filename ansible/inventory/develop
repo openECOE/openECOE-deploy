@@ -1,13 +1,15 @@
-[api]
-dev.api.openecoe.yml
-
-[webui]
-dev.openecoe.yml
-
-[chrono]
-dev.chrono.openecoe.yml
-
-[develop:children]
-api
-webui
-chrono
+---
+all:
+  children:
+    api:
+      hosts:
+        dev.api.openecoe
+      children:
+        develop:
+          dev.api.openecoe
+    webui:
+      hosts:
+        dev.webui.openecoe
+    chrono:
+      hosts:
+        dev.chrono.openecoe

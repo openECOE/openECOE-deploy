@@ -2,6 +2,11 @@ supervisor_unix_http_server_enable: true
 #supervisor_unix_http_server_socket_path: /var/run/supervisord.sock
 supervisor_unix_http_server_socket_path: /var/run/supervisord.sock
 
+supervisor_started: false
+supervisor_user: root
+supervisor_password: '1234'
+
+
 supervisor_programs:
   - name: '{{project_main_controller}}'
     command: "{{venv_path}}/bin/gunicorn{% if gunicorn_params is defined %} {{gunicorn_params}}{% endif %} -b {{gunicorn_server}} -w {{app_workers}} {{gunicorn_module}} --access-logfile -"

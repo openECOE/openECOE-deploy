@@ -1,4 +1,27 @@
 ---
-- import_playbook: setup.api.yml
-- import_playbook: setup.webui.ng.yml
-- import_playbook: setup.chrono.yml
+- name: Install base dependencies
+  become: yes # This means that all tasks will be executed with sudo
+  hosts: all
+  roles:
+    - base
+
+- name: Install API
+  hosts: api
+  become: yes
+  roles:
+    - configure
+    - openecoe.api
+
+- name: Install WebUI
+  hosts: webui
+  become: yes
+  roles:
+    - configure
+    - openecoe.webui.ng
+
+- name: Install Chrono
+  hosts: chrono
+  become: yes
+  roles:
+    - configure
+    - openecoe.chrono
