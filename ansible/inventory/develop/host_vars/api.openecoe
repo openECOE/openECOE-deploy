@@ -1,4 +1,4 @@
 ---
 hostname: openecoe-api
 app_fqdn: "{{routes.api.host}}"
-app_port: "{{routes.api.port}}"
+app_port: "5000"
