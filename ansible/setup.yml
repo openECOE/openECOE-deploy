@@ -1,4 +1,26 @@
 ---
-- import_playbook: setup.api.yml
-- import_playbook: setup.webui.ng.yml
-- import_playbook: setup.chrono.yml
+- name: Configure environment
+  become: yes # This means that all tasks will be executed with sudo
+  hosts: all
+  roles:
+    - configure
+
+- name: Install API
+  hosts: api
+  become: yes
+  roles:
+    - check.python
+    - openecoe.api
+
+- name: Install WebUI
+  hosts: webui
+  become: yes
+  roles:
+    - openecoe.webui.ng
+
+- name: Install Chrono
+  hosts: chrono
+  become: yes
+  roles:
+    - check.python
+    - openecoe.chrono

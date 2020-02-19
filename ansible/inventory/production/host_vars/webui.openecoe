@@ -1,0 +1,4 @@
+---
+hostname: webui-openecoe
+app_fqdn: "{{routes.webui.host}}"
+app_port: "{{routes.webui.port}}"

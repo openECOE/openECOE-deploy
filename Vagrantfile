@@ -3,7 +3,6 @@
 
 Vagrant.configure("2") do |config|
   config.vm.box = "ubuntu/bionic64"
-  #config.vm.box= "debian/buster64"
 
   #config.vm.network "public_network"
   config.vm.synced_folder "./ansible", "/tmp/deploy", mount_options: ["dmode=775,fmode=664"]
@@ -12,10 +11,7 @@ Vagrant.configure("2") do |config|
 
   config.vm.define "full", primary: true do |prod|
     prod.vm.network "private_network", ip: "192.168.11.40"
-    prod.vm.network "forwarded_port", guest: 22, host: 2252
-
-    #prod.ssh.port = 22
-    #prod.ssh.guest_port = 2252
+    prod.vm.network "forwarded_port", guest: 22, host: 2240
 
     prod.vm.hostname = "openecoe"
 
@@ -23,7 +19,6 @@ Vagrant.configure("2") do |config|
       #ansible.verbose = "v"
       ansible.limit = "production"
       ansible.provisioning_path = "/tmp/deploy"
-      ansible.vault_password_file  = "ansible_vault.pass"
       #ansible.galaxy_role_file = "requeriments.yml"
       ansible.playbook = "setup.yml"
       ansible.inventory_path = "inventory/production"
@@ -31,16 +26,16 @@ Vagrant.configure("2") do |config|
     end
   end
 
-  config.vm.define "test", autostart: false do |prod|
-    prod.vm.network "private_network", ip: "192.168.11.50"
-    prod.vm.network "forwarded_port", guest: 22, host: 2252
+  config.vm.define "test", autostart: false do |test|
+    test.vm.network "private_network", ip: "192.168.11.50"
+    test.vm.network "forwarded_port", guest: 22, host: 2250
 
-    prod.ssh.port = 2232
-    prod.ssh.guest_port = 2252
+    test.ssh.port = 2250
+    test.ssh.guest_port = 22
 
-    prod.vm.hostname = "openecoe-test"
+    test.vm.hostname = "openecoe-test"
 
-    prod.vm.provision "ansible_local" do |ansible|
+    test.vm.provision "ansible_local" do |ansible|
       ansible.verbose = "vv"
       ansible.limit = "test"
       ansible.provisioning_path = "/tmp/deploy"
@@ -56,16 +51,12 @@ Vagrant.configure("2") do |config|
     prod.vm.network "private_network", ip: "192.168.11.41"
     prod.vm.network "forwarded_port", guest: 2252, host: 1141
 
-    prod.ssh.port = 1141
-    prod.ssh.guest_port = 2252
-
     prod.vm.hostname = "openecoe-api"
 
     prod.vm.provision "ansible_local" do |ansible|
-      #ansible.verbose = "v"
+      ansible.verbose = "vvv"
       ansible.limit = "api"
       ansible.provisioning_path = "/tmp/deploy"
-      ansible.vault_password_file  = "ansible_vault.pass"
       #ansible.galaxy_role_file = "requeriments.yml"
       ansible.playbook = "setup.yml"
       ansible.inventory_path = "inventory/production"
@@ -77,16 +68,12 @@ Vagrant.configure("2") do |config|
     prod.vm.network "private_network", ip: "192.168.11.42"
     prod.vm.network "forwarded_port", guest: 2252, host: 1142
 
-    prod.ssh.port = 1142
-    prod.ssh.guest_port = 2252
-
     prod.vm.hostname = "openecoe-webui"
 
     prod.vm.provision "ansible_local" do |ansible|
       ansible.verbose = "v"
       ansible.limit = "webui"
       ansible.provisioning_path = "/tmp/deploy"
-      ansible.vault_password_file  = "ansible_vault.pass"
       #ansible.galaxy_role_file = "requeriments.yml"
       ansible.playbook = "setup.yml"
       ansible.inventory_path = "inventory/production"
@@ -99,9 +86,6 @@ Vagrant.configure("2") do |config|
   config.vm.define "chrono", autostart: false do |prod|
     prod.vm.network "private_network", ip: "192.168.11.43"
     prod.vm.network "forwarded_port", guest: 2252, host: 1143
-
-    prod.ssh.port = 1143
-    prod.ssh.guest_port = 2252
 
     prod.vm.hostname = "openecoe-chrono"
 

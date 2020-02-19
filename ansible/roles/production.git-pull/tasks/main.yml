@@ -31,7 +31,7 @@
     state: present
     update_cache: yes
 
-- name: Pull {{project_main_controller}} from github with certificate
+- name: Pull {{project_main_controller}} ({{branch}} - {{repo}}) from github with certificate
   git:
     repo: "{{repo}}"
     dest: "{{path}}"
@@ -43,7 +43,7 @@
   tags: git
   when: certificate is defined
 
-- name: Pull {{project_main_controller}} from github
+- name: Pull {{project_main_controller}} ({{branch}} - {{repo}}) from github
   git:
     repo: "{{repo}}"
     dest: "{{path}}"

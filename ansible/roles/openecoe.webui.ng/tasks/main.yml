@@ -17,8 +17,15 @@
     repo: "{{git_repo}}"
     branch: "{{git_branch}}"
     path: "{{ng_project_path}}"
-  when: env == 'production'
+  when: env != 'local'
   register: git_finished
+
+- name: Create environment configuration file
+  template:
+    src: environment.prod.ts
+    dest: "{{ng_project_path}}/src/environments/environment.prod.ts"
+    mode: 0644
+    force: yes
 
 - name: Running NPM install
   npm:
@@ -28,21 +35,21 @@
 #  when: git_finished.changed
 
 - name: Build Angular Configuration
-  shell: "./node_modules/@angular/cli/bin/ng build --configuration={{ng_config}} --aot "
+  shell: "./node_modules/@angular/cli/bin/ng build --configuration={{ng_config}}"
   args:
     chdir: "{{ng_project_path}}"
   register: ngbuild_finished
-  when: env != 'production'
+  when: ng_config is defined
 
 - name: Build Angular Prod
   shell: "./node_modules/@angular/cli/bin/ng build --prod --aot"
   args:
     chdir: "{{ng_project_path}}"
   register: ngbuild_finished
-  when: env == 'production'
+  when: ng_config is undefined
 
 - name: Create nginx hosts
-  when: env == 'production'
+  when: env != 'local'
   include_role:
     name: production.nginx
   vars:

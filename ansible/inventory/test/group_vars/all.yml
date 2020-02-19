@@ -1,0 +1,28 @@
+---
+# Organization settings
+organization: "Universidad Miguel Hernandez"
+domain: openecoe.es
+
+admin_users:
+  admin:
+    email: "admin@{{domain}}"
+    name: Admin
+    surname: OpenECOE
+    password: 1234567890
+
+# App environment
+env: test
+app_secret_key: '12345678901234567890123456789012'
+
+git_branch: develop
+
+# Test Enviroment Config
+app_debug: False
+app_testing: True
+
+# Database settings
+database_user: "openecoe"
+database_password: "1234567890"
+
+#Deactivate supervisor http server in production
+supervisor_inet_http_server_enable: false
