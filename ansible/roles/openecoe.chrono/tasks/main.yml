@@ -5,7 +5,7 @@
     repo: "{{git_repo}}"
     branch: "{{git_branch}}"
     path: "{{project_path}}"
-  when: env == 'production'
+  when: env != 'local'
 
 #- name: Create .env configuration file
 #  template:
@@ -21,11 +21,11 @@
   tags: virtualenv
 
 - name: Create nginx hosts
-  when: env == 'production'
+  when: env != 'local'
   include_role:
     name: production.nginx
 
 - name: Create supervisor process
-  when: env == 'production'
+  when: env != 'local'
   include_role:
     name: production.supervisor

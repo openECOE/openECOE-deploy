@@ -1,5 +1,5 @@
 - name: Get project {{project_main_controller}} from Github ({{git_repo}})
-  when: env == 'production'
+  when: env != 'local'
   include_role:
     name: production.git-pull
   vars:
@@ -60,12 +60,12 @@
   with_dict: "{{admin_users}}"
 
 - name: Create nginx hosts
-  when: env == 'production'
+  when: env != 'local'
   include_role:
     name: production.nginx
   ignore_errors: yes
 
 - name: Create supervisor process
-  when: env == 'production'
+  when: env != 'local'
   include_role:
     name: production.supervisor

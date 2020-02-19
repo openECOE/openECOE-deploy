@@ -1,5 +1,5 @@
 ---
-# API Enviroment Config
+# API Environment Config
 project_main_controller: openECOE-API
 project_path: "{{base_path}}/{{project_main_controller}}"
 

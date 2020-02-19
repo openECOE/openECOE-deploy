@@ -1,27 +1,26 @@
 ---
-- name: Install base dependencies
+- name: Configure environment
   become: yes # This means that all tasks will be executed with sudo
   hosts: all
   roles:
-    - base
+    - configure
 
 - name: Install API
   hosts: api
   become: yes
   roles:
-    - configure
+    - check.python
     - openecoe.api
 
 - name: Install WebUI
   hosts: webui
   become: yes
   roles:
-    - configure
     - openecoe.webui.ng
 
 - name: Install Chrono
   hosts: chrono
   become: yes
   roles:
-    - configure
+    - check.python
     - openecoe.chrono

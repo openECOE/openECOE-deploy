@@ -1,6 +1,0 @@
----
-hostname: openecoe-api
-app_fqdn: "{{routes.api.url}}"
-app_port: "{{routes.api.port}}"
-
-chrono_route: "{{routes.protocol}}://{{routes.chrono.url}}:{{routes.chrono.port}}"

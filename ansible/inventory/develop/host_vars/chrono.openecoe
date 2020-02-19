@@ -1,0 +1,11 @@
+---
+hostname: openecoe-chrono
+app_fqdn: "{{routes.chrono.host}}"
+app_port: "{{routes.chrono.port}}"
+
+
+
+
+
+
+

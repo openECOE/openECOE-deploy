@@ -1,10 +1,6 @@
 ---
-# configuration for production
+# configuration for testing
 git_repo: "https://github.com/openECOE/openECOE-chrono.git"
-git_branch: master
 
 # Production Enviroment Config
-app_debug: False
-app_testing: False
-
 app_workers: 1
