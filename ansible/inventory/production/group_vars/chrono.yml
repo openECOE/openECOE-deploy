@@ -1,6 +1,5 @@
 ---
 # configuration for production
-git_repo: "https://github.com/openECOE/openECOE-chrono.git"
 git_branch: master
 
 # Production Enviroment Config

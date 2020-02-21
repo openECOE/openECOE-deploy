@@ -1,6 +1,5 @@
 ---
 # configuration for testing
-git_repo: "https://github.com/openECOE/openECOE-API.git"
 
 # API Environment Config
 api_auth: True

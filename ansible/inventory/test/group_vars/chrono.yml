@@ -1,6 +1,3 @@
 ---
-# configuration for testing
-git_repo: "https://github.com/openECOE/openECOE-chrono.git"
-
 # Production Enviroment Config
 app_workers: 1

@@ -1,0 +1,10 @@
+- name: Pull ({{branch}} - {{https_route}}) from github
+  git:
+    repo: "{{https_route | mandatory}}"
+    dest: "{{path | mandatory}}"
+    version: "{{branch | mandatory}}"
+    update: yes
+    force: yes
+    track_submodules: yes
+  tags: git
+  changed_when: true

@@ -14,9 +14,9 @@
   include_role:
     name: production.git-pull
   vars:
-    repo: "{{git_repo}}"
-    branch: "{{git_branch}}"
-    path: "{{ng_project_path}}"
+    git_owner: "{{git_owner}}"
+    git_repo: "{{git_repo}}"
+    git_branch: "{{git_branch}}"
   when: env != 'local'
   register: git_finished
 

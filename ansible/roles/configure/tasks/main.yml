@@ -1,26 +1,35 @@
 ---
-# configure it
+- name: Create directory for domain if it does not exist
+  file:
+    path: "{{base_path}}"
+    state: directory
+    mode: '0755'
 
-#  - name: set hostname
-#    hostname: name={{hostname}}
+- name: Generate random secret key
+  set_fact:
+    app_secret_key: "{{ lookup('password', '/tmp/passwordfile length=32 chars=ascii_letters,digits') }}"
+  when: app_secret_key is undefined
 
-  - name: put {{app_fqdn}} in /etc/hosts
-    lineinfile: "dest=/etc/hosts line='127.0.0.1 {{hostname}} {{app_fqdn}}'"
+- name: put {{app_fqdn}} in /etc/hosts
+  lineinfile: "dest=/etc/hosts line='127.0.0.1 {{hostname}} {{app_fqdn}}'"
 
-  - name: get github.com public key
-    command: /usr/bin/ssh-keyscan github.com
-    check_mode: no
-    register: github_keyscan
+#- name: get github.com public key
+#  command: /usr/bin/ssh-keyscan github.com
+#  check_mode: no
+#  register: github_keyscan
+#
+#- name: github key is recognized
+#  lineinfile: dest=/etc/ssh/ssh_known_hosts
+#      create=yes
+#      regexp='^github.com'
+#      line="{{ github_keyscan.stdout }}"
+#
+#- name: keep ssh agent forwarding under sudo
+#  lineinfile: dest=/etc/sudoers
+#      insertafter='^Defaults'
+#      line='Defaults env_keep += "SSH_AUTH_SOCK"'
+#      state=present
+#      validate='visudo -cf %s'
 
-  - name: github key is recognized
-    lineinfile: dest=/etc/ssh/ssh_known_hosts
-        create=yes
-        regexp='^github.com'
-        line="{{ github_keyscan.stdout }}"
-
-  - name: keep ssh agent forwarding under sudo
-    lineinfile: dest=/etc/sudoers
-        insertafter='^Defaults'
-        line='Defaults env_keep += "SSH_AUTH_SOCK"'
-        state=present
-        validate='visudo -cf %s'
+- name: Save configuration tasks
+  include_tasks: save.yml

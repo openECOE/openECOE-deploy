@@ -1,0 +1,39 @@
+---
+- include: generate-key.yml
+
+- name: Update github with the deploy key
+  github_deploy_key:
+    owner: "{{github_deploy_api_owner}}"
+    repo: "{{github_deploy_api_repo}}"
+    name: "{{ github_deploy_public_key_title }}"
+    key: "{{ github_deploy_ssh_public_key }}"
+    read_only: "{{ 'false' if not github_deploy_read_only else 'true' }}"
+    token: "{{ github_deploy_api_token | mandatory }}"
+  register: github_api_deploy_key_add_response
+  delegate_to:  "{{ github_deploy_local_delegate }}"
+
+#  uri:
+#    url: "{{ github_api_deploy_key_add_url }}"
+#    HEADER_Authorization: "token {{ github_deploy_api_token | mandatory }}"
+#    method:         POST
+#    body_format:    json
+#    status_code:    201
+#    return_content: yes
+#    body:
+#      title:        "{{ github_deploy_public_key_title }}"
+#      key:          "{{ github_deploy_ssh_public_key }}"
+#      read_only:    "{{ 'false' if not github_deploy_read_only else 'true' }}"
+#  register:     github_api_deploy_key_add_response
+#  no_log:       yes
+#  delegate_to:  "{{ github_deploy_local_delegate }}"
+
+- name: Set a fact for the Key ID
+  set_fact:
+    github_api_deploy_key_id: "{{ github_api_deploy_key_add_response.id }}"
+
+- include: keyscan.yml
+  when:    github_deploy_keyscan_enable
+
+- include: create-host-key.yml
+  when:     github_deploy_create_host_key
+...

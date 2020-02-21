@@ -7,6 +7,9 @@ venv_path: "{{base_path}}/.venv_chrono"
 requirements_path: "{{project_path}}/requirements.txt"
 
 # Gunicorn config
-gunicorn_server: "localhost:9000"
+gunicorn_server: "localhost:8200"
 gunicorn_params: "--worker-class eventlet"
 gunicorn_module: "{{project_main_controller}}:app"
+
+# Repository configuration
+git_repo: "openECOE-chrono"

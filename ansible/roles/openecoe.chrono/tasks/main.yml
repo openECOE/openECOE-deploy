@@ -1,4 +1,4 @@
-- name: Get project {{project_main_controller}} from Github ({{git_repo}})
+- name: Get project {{project_main_controller}} from {{git_repo}} Github
   include_role:
     name: production.git-pull
   vars:
@@ -29,3 +29,4 @@
   when: env != 'local'
   include_role:
     name: production.supervisor
+  tags: [supervisor]

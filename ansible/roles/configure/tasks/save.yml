@@ -1,0 +1,18 @@
+---
+- name: Save config for {{domain}}
+  block:
+    - name: Create config for {{domain}}
+      template:
+        src: base.conf
+        dest: "{{base_path}}/{{domain}}.conf"
+        mode: 0644
+        force: yes
+      register: saved_config
+      tags: save_config
+
+    - name: Save config in configurations folder
+      fetch:
+        src: "{{saved_config.dest}}"
+        dest: ./configurations/
+        flat: yes
+      when: saved_config

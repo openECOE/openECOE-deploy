@@ -6,9 +6,12 @@ project_path: "{{base_path}}/{{project_main_controller}}"
 venv_path: "{{base_path}}/.venv"
 requirements_path: "{{project_path}}/requirements.txt"
 
-database_name: "{{project_main_controller}}_{{env}}"
+database_name: "{{database}}_{{env}}"
 
 # Gunicorn config
 gunicorn_server: "localhost:8000"
 gunicorn_module: "{{project_main_controller}}:app"
 app_workers: 4
+
+# Repository configuration
+git_repo: "openECOE-API"

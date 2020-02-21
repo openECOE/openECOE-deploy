@@ -195,3 +195,11 @@ venv.bak/
 
 
 ansible_vault.pass
+/ansible/configurations/*.conf
+!/ansible/configurations/template.conf
+!ansible/inventory/develop
+!ansible/inventory/production
+!ansible/inventory/test
+ansible/inventory/
+
+

@@ -3,9 +3,8 @@
   include_role:
     name: production.git-pull
   vars:
-    repo: "{{git_repo}}"
-    branch: "{{git_branch}}"
-    path: "{{project_path}}"
+    git_repo: "{{git_repo}}"
+    git_branch: "{{git_branch}}"
 
 - name: Create .env configuration file
   template:
