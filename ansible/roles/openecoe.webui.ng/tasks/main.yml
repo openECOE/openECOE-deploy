@@ -1,3 +1,11 @@
+# Manage the state of program to be in 'started' state.
+- name: Ensure old WebUI supervisor is removed
+  supervisorctl:
+    name: "openECOE-WebUI"
+    state: absent
+    username: "{{ supervisor_user }}"
+    password: "{{ supervisor_password }}"
+
 - name: Install Packages
   apt:
     name: ['build-essential',

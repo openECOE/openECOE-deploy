@@ -38,7 +38,7 @@
     LANG: C.UTF-8
   tags: upgradeAPIDB
 
-- name: Create default Organization
+- name: Create Organization '{{organization}}'
   shell: "{{ venv_path }}/bin/flask create_orga --name '{{organization}}'"
   args:
     chdir: "{{project_path}}"
@@ -49,7 +49,7 @@
   tags: createorga
 
 - name: Create default admin users
-  shell: "{{ venv_path }}/bin/flask create_user --email {{item.value.email}} --password {{item.value.password}} --name  {{item.value.name}} --surname {{item.value.surname}} --admin"
+  shell: "{{ venv_path }}/bin/flask create_user --email '{{item.value.email}}' --password '{{item.value.password}}' --name  '{{item.value.name}}' --surname '{{item.value.surname}}' --organization_name '{{organization}}' --admin"
   args:
     chdir: "{{project_path}}"
   environment:
