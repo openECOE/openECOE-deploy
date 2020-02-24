@@ -2,6 +2,62 @@
 - name: Configure environment
   become: yes # This means that all tasks will be executed with sudo
   hosts: all
+  vars_prompt:
+    - name: domain
+      prompt: "What is the domain?"
+      private: no
+      default: openecoe.es
+
+    - name: organization
+      prompt: "What is your organization name?"
+      private: no
+      default: "Universidad Miguel Hernández"
+
+    - name: admin_email
+      prompt: "What is your email?"
+      private: no
+      default: "admin@openecoe.es"
+
+    - name: admin_name
+      prompt: "What is your name?"
+      private: no
+      default: "Admin"
+
+    - name: admin_surname
+      prompt: "What is your surname?"
+      private: no
+      default: "openECOE"
+
+    - name: admin_password
+      prompt: "Admin password"
+      confirm: yes
+
+    - name: database
+      prompt: "Choose database name"
+      private: no
+      default: "openECOE-API"
+
+    - name: database_user
+      prompt: "Choose database user name"
+      private: no
+      default: "openecoe"
+
+    - name: database_password
+      prompt: "Database password"
+      confirm: yes
+  pre_tasks:
+    - set_fact:
+        domain: "{{domain}}"
+        organization: "{{organization}}"
+        admin_users:
+          admin:
+            email: "{{admin_email}}"
+            name: "{{admin_name}}"
+            surname: "{{admin_surname}}"
+            password: "{{admin_password}}"
+        database: "{{database}}"
+    - debug:
+        msg: 'Configure system {{hostname}} in {{ domain }}'
   roles:
     - configure
 
@@ -11,12 +67,17 @@
   roles:
     - check.python
     - openecoe.api
+  tasks:
+    - debug:
+        msg: 'Generated App Secret Key {{ app_secret_key }}'
+  tags: [git]
 
 - name: Install WebUI
   hosts: webui
   become: yes
   roles:
     - openecoe.webui.ng
+  tags: [git]
 
 - name: Install Chrono
   hosts: chrono
@@ -24,3 +85,4 @@
   roles:
     - check.python
     - openecoe.chrono
+  tags: [git]

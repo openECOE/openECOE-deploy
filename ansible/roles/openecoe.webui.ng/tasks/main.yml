@@ -10,26 +10,27 @@
   include_role:
     name: geerlingguy.nodejs
 
-- name: Get project {{ng_main_controller}} from Github ({{ng_git_repo}})
+- name: Get project {{project_main_controller}} from Github ({{git_repo}})
   include_role:
     name: production.git-pull
   vars:
-    repo: "{{git_repo}}"
-    branch: "{{git_branch}}"
-    path: "{{ng_project_path}}"
+    git_pull_owner: "{{git_owner}}"
+    git_pull_repo: "{{git_repo}}"
+    git_pull_branch: "{{git_branch}}"
+    git_pull_path: "{{project_path}}"
   when: env != 'local'
   register: git_finished
 
 - name: Create environment configuration file
   template:
     src: environment.prod.ts
-    dest: "{{ng_project_path}}/src/environments/environment.prod.ts"
+    dest: "{{project_path}}/src/environments/environment.prod.ts"
     mode: 0644
     force: yes
 
 - name: Running NPM install
   npm:
-    path: "{{ng_project_path}}"
+    path: "{{project_path}}"
     state: latest
   register: npm_finished
 #  when: git_finished.changed
@@ -37,16 +38,18 @@
 - name: Build Angular Configuration
   shell: "./node_modules/@angular/cli/bin/ng build --configuration={{ng_config}}"
   args:
-    chdir: "{{ng_project_path}}"
+    chdir: "{{project_path}}"
   register: ngbuild_finished
   when: ng_config is defined
+  tags: "angular_build"
 
 - name: Build Angular Prod
   shell: "./node_modules/@angular/cli/bin/ng build --prod --aot"
   args:
-    chdir: "{{ng_project_path}}"
+    chdir: "{{project_path}}"
   register: ngbuild_finished
   when: ng_config is undefined
+  tags: "angular_build"
 
 - name: Create nginx hosts
   when: env != 'local'

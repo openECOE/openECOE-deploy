@@ -1,6 +1,5 @@
 ---
 # configuration for Production
-git_repo: "https://github.com/openECOE/openECOE-API.git"
 git_branch: master
 
 # Production Environment Config

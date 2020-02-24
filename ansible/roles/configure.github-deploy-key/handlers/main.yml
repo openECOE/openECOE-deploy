@@ -1,0 +1,22 @@
+---
+# Removes the generated key from Github
+- name: Revoke Github deploy key
+  github_deploy_key:
+    owner: "{{ github_deploy_api_owner | mandatory }}"
+    repo: "{{ github_deploy_api_repo | mandatory }}"
+    name: "{{ github_deploy_public_key_title | mandatory }}"
+    key: "{{ github_deploy_ssh_public_key | mandatory }}"
+    token: "{{ github_deploy_api_token | mandatory }}"
+    force: yes
+    state: absent
+  register: github_api_deploy_key_delete_response
+  run_once: yes
+  delegate_to: "{{ github_deploy_local_delegate }}"
+  no_log: yes
+
+# Deletes the transient private key from the host
+- name: Delete the transient deploy key host temp dir
+  file:
+    path: "{{ github_deploy_key_temp_dir }}"
+    state: absent
+...
