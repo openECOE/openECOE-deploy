@@ -10,7 +10,7 @@
         git_pull_github_token: "{{ ansible_env.GITHUB_API_TOKEN}}"
   when: github_token is defined
 
-- name: Ty to recover GITHUB_API_TOKEN environment
+- name: Try to recover GITHUB_API_TOKEN environment
   set_fact:
     git_pull_github_token: "{{ ansible_env.GITHUB_API_TOKEN}}"
   when: "'GITHUB_API_TOKEN' in ansible_env"
