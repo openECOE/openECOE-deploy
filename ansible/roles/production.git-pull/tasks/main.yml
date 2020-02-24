@@ -1,38 +1,13 @@
-#- name: Include Github Deploy SSL certificates
-#  include_vars:
-#    file: certificate.yml
-#    name: certificate
-#  ignore_errors: True
-#
-#- name: make sure Github Deploy SSL certificate is installed
-#  copy:
-#    content: "{{ certificate.ssl_certificate }}"
-#    dest: "/etc/ssl/certs/github_deploy_cert.pem"
-#    owner: root
-#    group: root
-#    mode: 0644
-#  when: certificate is defined
-#  ignore_errors: True
-#
-#- name: make sure Github Deploy SSL private key is installed
-#  copy:
-#    content: "{{ certificate.ssl_private_key }}"
-#    dest: "/etc/ssl/private/github_deploy_key.pem"
-#    owner: root
-#    group: root
-#    mode: 0600
-#  no_log: true
-#  when: certificate is defined
-#  ignore_errors: True
-#
 - name: make sure git is installed
   apt:
     name: git
     state: present
     update_cache: yes
 
-- include_tasks: pull.yml
-  when: github_token is undefined
+- name: Pull public repository
+  include_tasks: pull.yml
+  when: git_pull_github_token is undefined
 
-- include_tasks: pull_with_token.yml
-  when: github_token is defined
+- name: Pull protected repository
+  include_tasks: pull_with_token.yml
+  when: git_pull_github_token is defined

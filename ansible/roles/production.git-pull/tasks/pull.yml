@@ -1,10 +1,10 @@
-- name: Pull ({{branch}} - {{https_route}}) from github
+- name: Pull ({{git_pull_branch}} - {{git_pull_https_route}}) from github
   git:
-    repo: "{{https_route | mandatory}}"
-    dest: "{{path | mandatory}}"
-    version: "{{branch | mandatory}}"
+    repo: "{{git_pull_https_route | mandatory}}"
+    dest: "{{git_pull_path | mandatory}}"
+    version: "{{git_pull_branch | mandatory}}"
     update: yes
     force: yes
-    track_submodules: yes
+    recursive: no
   tags: git
   changed_when: true

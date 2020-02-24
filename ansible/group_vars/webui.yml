@@ -1,6 +1,6 @@
 ---
 # WebUI Enviroment Config
-project_main_controller: openECOE-WebUI
+project_main_controller: openECOE-WebUI-ng
 project_path: "{{base_path}}/{{project_main_controller}}"
 
 api_route: "{{routes.protocol}}://{{routes.api.host}}:{{routes.api.port}}"

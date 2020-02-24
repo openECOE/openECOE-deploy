@@ -1,10 +1,13 @@
 - name: Get project {{project_main_controller}} from Github ({{git_repo}})
-  when: env != 'local'
   include_role:
     name: production.git-pull
   vars:
-    git_repo: "{{git_repo}}"
-    git_branch: "{{git_branch}}"
+    git_pull_owner: "{{git_owner}}"
+    git_pull_repo: "{{git_repo}}"
+    git_pull_branch: "{{git_branch}}"
+    git_pull_path: "{{project_path}}"
+  when: env != 'local'
+  register: git_finished
 
 - name: Create .env configuration file
   template:
@@ -43,7 +46,6 @@
     FLASK_APP: "{{project_main_controller}}.py"
     LC_ALL: C.UTF-8
     LANG: C.UTF-8
-  ignore_errors: yes
   tags: createorga
 
 - name: Create default admin users
@@ -54,7 +56,6 @@
     FLASK_APP: "{{project_main_controller}}.py"
     LC_ALL: C.UTF-8
     LANG: C.UTF-8
-  ignore_errors: yes
   tags: createusers
   with_dict: "{{admin_users}}"
 

@@ -1,14 +1,8 @@
-ng_git_repo: "git@github.com:openECOE/openECOE-WebUI-ng.git"
-
-ng_main_controller: "openECOE-WebUI-ng"
-ng_project_path: "{{base_path}}/{{ng_main_controller}}"
-ng_dist_path: "{{ng_project_path}}/dist/{{ng_main_controller}}"
-
 vhosts:
   - listen: "{{nginx_port}}"
     server_name: "{{app_fqdn}}"
     state: "present"
-    filename: "{{project_main_controller}}_{{nginx_port}}.conf"
+    filename: "{{project_main_controller}}_{{app_port}}.conf"
     template: "{{ nginx_vhost_template }}"
     extra_parameters: |
       root {{ng_dist_path}};

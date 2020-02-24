@@ -1,14 +1,14 @@
 ---
 #Repository configuration
-ssh: "git@github.com"
-https: "https://github.com"
-owner: "openECOE"
+git_pull_ssh: "git@github.com"
+git_pull_https: "https://github.com"
+git_pull_owner: "openECOE"
 
-branch: "master"
+git_pull_branch: "master"
 
-ssh_route: "{{ssh}}:{{owner}}/{{repo | mandatory}}.git"
-https_route: "{{https}}/{{owner}}/{{repo | mandatory}}.git"
+git_pull_ssh_route: "{{git_pull_ssh}}:{{git_pull_owner}}/{{git_pull_repo | mandatory}}.git"
+git_pull_https_route: "{{git_pull_https}}/{{git_pull_owner}}/{{git_pull_repo | mandatory}}.git"
 
 # Personal token from github, pass in variables
-#github_token: 123213213213213213213213213
+#git_pull_github_token: 123213213213213213213213213
 ...

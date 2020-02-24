@@ -1,13 +1,3 @@
-
-- name: Create Github.com deploy key using personal token
-  include_role:
-    name: configure.github-deploy-key
-  vars:
-    github_deploy_api_owner: "{{kowner | mandatory}}"
-    github_deploy_api_repo: "{{repo | mandatory}}"
-    github_deploy_api_token: "{{github_token | mandatory}}"
-#        github_deploy_ssh_keygen_type: "{{ lookup('env','SSH_KEY_TYPE') }}"
-
 - name: Create a temporary directory for the key
   command: 'mktemp -d'
   register: deploy_code_key_dir_create
@@ -15,6 +5,15 @@
 - name: Set a fact for the directory path
   set_fact:
     deploy_code_key_dir: "{{ deploy_code_key_dir_create.stdout }}"
+
+- name: Create Github.com deploy key using personal token
+  include_role:
+    name: configure.github-deploy-key
+  vars:
+    github_deploy_api_owner: "{{git_pull_owner | mandatory}}"
+    github_deploy_api_repo: "{{git_pull_repo | mandatory}}"
+    github_deploy_api_token: "{{git_pull_github_token | mandatory}}"
+    github_deploy_key_temp_dir: "{{deploy_code_key_dir}}"
 
 - name: Create a temporary private key file
   lineinfile:
@@ -24,14 +23,15 @@
     dest: "{{ deploy_code_key_dir }}/key"
     mode: 0600
 
-- name: Pull ({{branch}} - {{ssh_route}}) from github with certificate
+- name: Pull ({{git_pull_branch}} - {{git_pull_ssh_route}}) from github with certificate
   git:
-    repo: "{{ssh_route | mandatory}}"
-    dest: "{{path | mandatory}}"
-    version: "{{branch | mandatory}}"
+    repo: "{{git_pull_ssh_route | mandatory}}"
+    dest: "{{git_pull_path | mandatory}}"
+    version: "{{git_pull_branch | mandatory}}"
     key_file: "{{ deploy_code_key_dir }}/key"
     update: yes
     force: yes
+    track_submodules: yes
   changed_when: true
   notify:
     - Delete the transient deploy key host temp dir

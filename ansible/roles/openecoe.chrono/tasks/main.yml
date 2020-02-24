@@ -2,9 +2,10 @@
   include_role:
     name: production.git-pull
   vars:
-    repo: "{{git_repo}}"
-    branch: "{{git_branch}}"
-    path: "{{project_path}}"
+    git_pull_owner: "{{git_owner}}"
+    git_pull_repo: "{{git_repo}}"
+    git_pull_branch: "{{git_branch}}"
+    git_pull_path: "{{project_path}}"
   when: env != 'local'
 
 #- name: Create .env configuration file

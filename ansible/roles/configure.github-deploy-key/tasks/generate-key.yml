@@ -12,6 +12,7 @@
 - name: Generate a new private key
   command: "{{ github_deploy_ssh_keygen_command }}"
   delegate_to: "{{ github_deploy_local_delegate }}"
+  no_log: yes
 
 - name: Read the private key
   command: "cat {{ github_deploy_ssh_gen_path }}"
