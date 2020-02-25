@@ -17,7 +17,7 @@
 - include_role:
     name: geerlingguy.supervisor
   tags: [supervisor]
-  ignore_errores: yes
+  ignore_errors: yes
 
 - name: Start service supervisord, if not running
   become: yes
