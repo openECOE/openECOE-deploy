@@ -51,10 +51,10 @@ para poder volver a ejecutar el playbook con la misma configuración.
 ### Uso de una configuración almacenada
 
 Es posible utilizar un archivo de configuración almacenado para lanzar el playbook con las variables que hace uso ya definidas.
-En la carpeta _/configurations_ se encuentra un archivo _template.conf_ que se puede utilizar de base
+En la carpeta [**configurations**](/configurations/) se encuentra un archivo [**template.conf**](/configurations/template.conf) que se puede utilizar de base
 para definir una configuración personalizada.
 
-También se almacena la configuración automáticamente cada vez que se lanza el despliegue en un archivo nombrado _[dominio].conf_.
+También se almacena la configuración automáticamente cada vez que se lanza el despliegue en un archivo nombrado **_[dominio].conf_**.
 
 Para lanzar el playbook tan solo se debe lanzar añadiendo la ruta del fichero de configuración de la siguiente forma:
 
