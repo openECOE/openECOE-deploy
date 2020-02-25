@@ -1,52 +1,65 @@
 <img src="/doc/logoUMH.jpg" align="right" width="300" ></a>
 # openECOE-deploy
-
-Realiza el despliegue de los módulos necesarios para la **openECOE**:
+**openECOE-deploy** se trata de un playbook de Ansible para realizar el despliegue de los módulos necesarios para la **openECOE** desde cada uno de los repositorios git:
 -   [**openECOE-API**](https://github.com/openECOE/openECOE-API)
 -   [**openECOE-chrono**](https://github.com/openECOE/openECOE-chrono)
 -   [**openECOE-WebUI-ng**](https://github.com/openECOE/openECOE-WebUI-ng)
 
+El **método recomendado de despliegue es haciendo uso de Ansible**, aunque se incluye un archivo _Vagrantfile_ que permite utilizar
+[**Vagrant**](https://www.vagrantup.com/) para crear máquinas virtuales de una forma rápida, principalmente para pruebas y desarrollo.
+
 ## Requerimientos
 
-- Ansible 2.2+
-- Vagrant 2.2.6 (opcional)
-- Requisitos máquina:
+- 
+- [**Ansible 2.4+**](https://docs.ansible.com/)
+- Requisitos recomendados:
 	- 2 vcpu  
 	- 4GB RAM
 	- 30GB Disco duro
 	- Ubuntu 16.04 en adelante
 
-## Configuración parámetros de despliegue
-Los parámetros de configuración se encuentran en el archivo:
-**/ansible/group_vars/all.yml**
+## Despliegue mediante Ansible
+### Primeros pasos
+Instala [**Ansible**](https://docs.ansible.com/ansible/latest/installation_guide/intro_installation.html) y ejecuta los siguientes comandos:
 
-Parámetros de configuración:
-- **app_secret_key:** Es conveniente modificarla por cualquier número aleatorio
-- **organization:** Nombre de la organización
-- **domain:** Dominio en el que funcionara openECOE
-- **admin_users:** Lista de Administradores que se crearan automáticamente en el despliegue
-- **database_user:** nombre de usuario root que se usara al crear la base de datos
-- **database_password:** contraseña del usuario root de la base de datos
+    # Clona este repositorio.
+    git clone https://github.com/openECOE/openECOE-deploy.git
+    
+    # Change to the cloned repository
+    cd openECOE-deploy
+    
+    # Ejecuta el playbook de despliegue usando el inventario 'production'
+    ansible-playbook -b -i "inventory/production" setup.yml
 
-## Despliegue mediante ansible
+Al ejecutar el playbook te solicitara los siguientes datos para configurar el entorno de openECOE:
+- **dominio:** Dominio que usara openECOE para acceder mediante su interfaz web
+- **organización:** Nombre de la organización
+- **email admin:** Correo electrónico del usuario superadministrador del sistema
+- **nombre admin:** Nombre del usuario superadministrador del sistema
+- **apellidos admin:** Apellidos del usuario superadministrador del sistema
+- **contraseña admin:** Contraseña del usuario superadministrador del sistema
+- **nombre BBDD:** Nombre que se quiere emplear para la base de datos
+- **usuario BBDD:** Usuario administrador de la base de datos
+- **contraseña BBDD:** Contraseña usuario administrador de la base de datos
 
-Según si el despliegue se realiza localmente o remotamente se debe modificar el parámetro de configuración ansible_connection ubicado en */ansible/group_vars/all.yml*
+Una vez se han introducido los parámetros solicitados comenzara el despliegue de todos los módulos en la máquina en la 
+que se ejecuta el playbook.
 
-Despliegue local
+Al comienzo del proceso se crea automáticamente un fichero de configuración en la carpeta _/configurations_ con los parámetros introducidos que servira 
+para poder volver a ejecutar el playbook con la misma configuración.
 
-     ansible_connection: local
+### Uso de una configuración almacenada
 
-Despliegue remoto
+Es posible utilizar un archivo de configuración almacenado para lanzar el playbook con las variables que hace uso ya definidas.
+En la carpeta _/configurations_ se encuentra un archivo _template.conf_ que se puede utilizar de base
+para definir una configuración personalizada.
 
-    ansible_connection: ssh
-    ansible_user: openecoe
-    ansible_port: 22
-    ansible_host: "{{domain}}"
-    ansible_ssh_private_key_file: "{{ lookup('env', 'HOME') }}/.ssh/id_rsa"
+También se almacena la configuración automáticamente cada vez que se lanza el despliegue en un archivo nombrado _[dominio].conf_.
 
-Ejecutar Ansible playbook para comenzar el despliegue
+Para lanzar el playbook tan solo se debe lanzar añadiendo la ruta del fichero de configuración de la siguiente forma:
 
-    ansible-playbook -b -i "inventory/production" -l "production" setup.yml -v --extra-vars "ansible_sudo_pass=[sudopass]"
+    # Ejecuta el playbook haciendo uso del archivo de configuración
+    ansible-playbook -b -i "inventory/production" setup.yml --extra-vars "@./configurations/[fichero_conf]"
 
 ## Licencia
 Copyright (c) 2019 Universidad Miguel Hernandez de Elche
@@ -54,8 +67,3 @@ Copyright (c) 2019 Universidad Miguel Hernandez de Elche
 This program is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version.
 
 This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details. You should have received a copy of the GNU General Public License along with this program. If not, see <http://www.gnu.org/licenses/>.
-
-<!--stackedit_data:
-eyJoaXN0b3J5IjpbLTg3NzA2OTI4NywxMTI1NTIwOTk2LC05NT
-AyMzc4NywtMTQ3MzU1NjIxN119
--->
