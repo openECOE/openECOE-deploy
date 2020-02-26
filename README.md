@@ -9,14 +9,12 @@ El **método recomendado de despliegue es haciendo uso de Ansible**, aunque se i
 [**Vagrant**](https://www.vagrantup.com/) para crear máquinas virtuales de una forma rápida, principalmente para pruebas y desarrollo.
 
 ## Requerimientos
-
-- 
-- [**Ansible 2.4+**](https://docs.ansible.com/)
-- Requisitos recomendados:
+- [**Ansible**](https://docs.ansible.com/)
+- Requisitos mínimos:
 	- 2 vcpu  
 	- 4GB RAM
 	- 30GB Disco duro
-	- Ubuntu 16.04 en adelante
+	- Ubuntu 18.04 LTS
 
 ## Despliegue mediante Ansible
 ### Primeros pasos
@@ -45,13 +43,23 @@ Al ejecutar el playbook te solicitara los siguientes datos para configurar el en
 Una vez se han introducido los parámetros solicitados comenzara el despliegue de todos los módulos en la máquina en la 
 que se ejecuta el playbook.
 
-Al comienzo del proceso se crea automáticamente un fichero de configuración en la carpeta _/configurations_ con los parámetros introducidos que servira 
+Al comienzo del proceso se crea automáticamente un fichero de configuración en la carpeta [**_configurations_**](/ansible/configurations/) con los parámetros introducidos que servira 
 para poder volver a ejecutar el playbook con la misma configuración.
 
+### Desplegar en una máquina remota
+Se deben seguir los mismos pasos anteriores para clonar este repositorio, pero la diferencia es que se necesita indicar 
+los parámetros de conexión de la máquina remota en la que se desea realizar el despliegue.
+
+    # Ejecuta el playbook de despliegue usando el inventario 'production'
+    ansible-playbook -b -i "inventory/production" setup.yml --extra-vars "ansible_connection=ssh ansible_host=[192.168.1.1] ansible_port=[22] ansible_user=[user] ansible_ssh_pass=[ssh_password]"
+    
+Para más información sobre como conectar con máquinas remotas mediante Ansible puede consultar la siguiente información:
+https://docs.ansible.com/ansible/2.3/intro_inventory.html#list-of-behavioral-inventory-parameters
+ 
 ### Uso de una configuración almacenada
 
 Es posible utilizar un archivo de configuración almacenado para lanzar el playbook con las variables que hace uso ya definidas.
-En la carpeta [**configurations**](/configurations/) se encuentra un archivo [**template.conf**](/configurations/template.conf) que se puede utilizar de base
+En la carpeta [**_configurations_**](/ansible/configurations/) se encuentra un archivo [**_template.conf_**](/ansible/configurations/template.conf) que se puede utilizar de base
 para definir una configuración personalizada.
 
 También se almacena la configuración automáticamente cada vez que se lanza el despliegue en un archivo nombrado **_[dominio].conf_**.
