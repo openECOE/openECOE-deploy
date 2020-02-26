@@ -27,7 +27,14 @@ Instala [**Ansible**](https://docs.ansible.com/ansible/latest/installation_guide
     cd openECOE-deploy
     
     # Ejecuta el playbook de despliegue usando el inventario 'production'
-    ansible-playbook -b -i "inventory/production" setup.yml
+    ansible-playbook --ask-become-pass -b -i "inventory/production" setup.yml
+
+`--ask-become-pass` solicita la contraseña para ejecutar las operaciones con sudo
+
+`-b` ejecuta el playbook como sudo
+
+`-i` indica el inventario que se utiliza para el despliegue
+
 
 Al ejecutar el playbook te solicitara los siguientes datos para configurar el entorno de openECOE:
 - **dominio:** Dominio que usara openECOE para acceder mediante su interfaz web
@@ -51,10 +58,11 @@ Se deben seguir los mismos pasos anteriores para clonar este repositorio, pero l
 los parámetros de conexión de la máquina remota en la que se desea realizar el despliegue.
 
     # Ejecuta el playbook de despliegue usando el inventario 'production'
-    ansible-playbook -b -i "inventory/production" setup.yml --extra-vars "ansible_connection=ssh ansible_host=[192.168.1.1] ansible_port=[22] ansible_user=[user] ansible_ssh_pass=[ssh_password]"
+    ansible-playbook --ask-become-pass -b -i "inventory/production" setup.yml --extra-vars "ansible_connection=ssh ansible_host=[192.168.1.1] ansible_port=[22] ansible_user=[user] ansible_ssh_pass=[ssh_password]"
     
 Para más información sobre como conectar con máquinas remotas mediante Ansible puede consultar la siguiente información:
-https://docs.ansible.com/ansible/2.3/intro_inventory.html#list-of-behavioral-inventory-parameters
+
+[**Ansible - List of behavioral inventory parameters**][https://docs.ansible.com/ansible/2.3/intro_inventory.html#list-of-behavioral-inventory-parameters]
  
 ### Uso de una configuración almacenada
 
@@ -67,7 +75,7 @@ También se almacena la configuración automáticamente cada vez que se lanza el
 Para lanzar el playbook tan solo se debe lanzar añadiendo la ruta del fichero de configuración de la siguiente forma:
 
     # Ejecuta el playbook haciendo uso del archivo de configuración
-    ansible-playbook -b -i "inventory/production" setup.yml --extra-vars "@./configurations/[fichero_conf]"
+    ansible-playbook --ask-become-pass -b -i "inventory/production" setup.yml --extra-vars "@./configurations/[fichero_conf]"
 
 ## Licencia
 Copyright (c) 2019 Universidad Miguel Hernandez de Elche
@@ -75,3 +83,6 @@ Copyright (c) 2019 Universidad Miguel Hernandez de Elche
 This program is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version.
 
 This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details. You should have received a copy of the GNU General Public License along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+
+[https://docs.ansible.com/ansible/2.3/intro_inventory.html#list-of-behavioral-inventory-parameters]: https://docs.ansible.com/ansible/2.3/intro_inventory.html#list-of-behavioral-inventory-parameters

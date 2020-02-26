@@ -10,9 +10,6 @@
     dest: /tmp
   register: dump_file
 
-- debug:
-    var: dump_file
-
 - name: Restore database
   mysql_db:
     name: "{{database_name}}"
