@@ -28,6 +28,21 @@
     requirements: "{{ requirements_path }}"
   tags: virtualenv
 
+## Copy database dump file to remote host and restore it to database 'my_db'
+#- name: Restore database if dump present
+#  block:
+#    - name: Copy database dump file
+#      copy:
+#        src: "{{sql_dump}}"
+#        dest: /tmp
+#
+#    - name: Restore database
+#      mysql_db:
+#        name: {{database_name}}
+#        state: import
+#        target: /tmp/dump.sql.bz2
+#  when: sql_dump is defined
+
 - name: Upgrade API DB
   shell: "{{ venv_path }}/bin/flask db upgrade"
   args:
