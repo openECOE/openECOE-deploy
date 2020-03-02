@@ -18,13 +18,16 @@ El **método recomendado de despliegue es haciendo uso de Ansible**, aunque se i
 
 ## Despliegue mediante Ansible
 ### Primeros pasos
-Instala [**Ansible**](https://docs.ansible.com/ansible/latest/installation_guide/intro_installation.html) y ejecuta los siguientes comandos:
+[**Instala Ansible**](https://docs.ansible.com/ansible/latest/installation_guide/intro_installation.html) y ejecuta los siguientes comandos:
 
     # Clona este repositorio.
     git clone https://github.com/openECOE/openECOE-deploy.git
     
-    # Change to the cloned repository
+    # Accede al repositorio clonado
     cd openECOE-deploy
+    
+    # Accede a la carpeta que contiene el playbook de ansible
+    cd ansible
     
     # Ejecuta el playbook de despliegue usando el inventario 'production'
     ansible-playbook --ask-become-pass -b -i "inventory/production" setup.yml
