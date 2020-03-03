@@ -20,9 +20,9 @@ export const environment = {
   production: true,
   SERVER_NAME: '{{domain}}',
   SECRET_KEY: '{{app_secret_key}}',
-  DEBUG: false,
-  TESTING: false,
-  API_ROUTE: 'http://api.{{domain}}',
-  API_AUTH_TOKEN: 'http://api.{{domain}}/auth/tokens',
-  CHRONO_ROUTE: 'http://chrono.{{domain}}:6080'
+  DEBUG: '{{app_debug}}',
+  TESTING: '{{app_testing}}',
+  API_ROUTE: '{{api_route}}',
+  API_AUTH_TOKEN: '{{api_auth_token}}',
+  CHRONO_ROUTE: '{{chrono_route}}'
 };

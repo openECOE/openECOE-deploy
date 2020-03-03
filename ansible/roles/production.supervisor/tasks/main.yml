@@ -4,17 +4,20 @@
     state: present
     virtualenv: "{{ venv_path }}"
     virtualenv_python: python3
+  tags: [supervisor]
 
-- name: Ensure supervisor program {{project_main_controller}} is stopped
-  supervisorctl:
-    name: "{{project_main_controller}}"
+- name: Stop service supervisord, if running
+  become: yes
+  service:
+    name: supervisord
     state: stopped
-    username: "{{supervisor_user}}"
-    password: "{{supervisor_password}}"
   ignore_errors: yes
+  tags: [supervisor]
 
 - include_role:
     name: geerlingguy.supervisor
+  tags: [supervisor]
+  ignore_errors: yes
 
 - name: Start service supervisord, if not running
   become: yes
@@ -22,11 +25,4 @@
     name: supervisord
     state: started
   ignore_errors: yes
-
-- name: Start supervisor program {{project_main_controller}}
-  supervisorctl:
-    name: "{{project_main_controller}}"
-    state: restarted
-    username: "{{supervisor_user}}"
-    password: "{{supervisor_password}}"
-  ignore_errors: yes
+  tags: [supervisor]

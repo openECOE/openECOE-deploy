@@ -1,11 +1,13 @@
 - name: Get project {{project_main_controller}} from Github ({{git_repo}})
-  when: env == 'production'
   include_role:
     name: production.git-pull
   vars:
-    repo: "{{git_repo}}"
-    branch: "{{git_branch}}"
-    path: "{{project_path}}"
+    git_pull_owner: "{{git_owner}}"
+    git_pull_repo: "{{git_repo}}"
+    git_pull_branch: "{{git_branch}}"
+    git_pull_path: "{{project_path}}"
+  when: env != 'local'
+  register: git_finished
 
 - name: Create .env configuration file
   template:
@@ -26,6 +28,16 @@
     requirements: "{{ requirements_path }}"
   tags: virtualenv
 
+- name: Restore database if dump present
+  block:
+    - pause:
+        prompt: "Are you sure you want to recover {{database_name}} with {{sql_dump}} (yes/no)?"
+      register: recover_database
+
+    - include_tasks: restore_database.yml
+      when: recover_database.user_input | bool
+  when: sql_dump is defined
+
 - name: Upgrade API DB
   shell: "{{ venv_path }}/bin/flask db upgrade"
   args:
@@ -36,36 +48,49 @@
     LANG: C.UTF-8
   tags: upgradeAPIDB
 
-- name: Create default Organization
-  shell: "{{ venv_path }}/bin/flask create_orga --name '{{organization}}'"
-  args:
-    chdir: "{{project_path}}"
-  environment:
-    FLASK_APP: "{{project_main_controller}}.py"
-    LC_ALL: C.UTF-8
-    LANG: C.UTF-8
-  ignore_errors: yes
-  tags: createorga
+- name: Create Organization '{{organization}}'
+  block:
+    - shell: "{{ venv_path }}/bin/flask create_orga --name '{{organization}}'"
+      args:
+        chdir: "{{project_path}}"
+      environment:
+        FLASK_APP: "{{project_main_controller}}.py"
+        LC_ALL: C.UTF-8
+        LANG: C.UTF-8
+      tags: createorga
+  rescue:
+    - debug:
+        msg: "Organization exists"
 
 - name: Create default admin users
-  shell: "{{ venv_path }}/bin/flask create_user --email {{item.value.email}} --password {{item.value.password}} --name  {{item.value.name}} --surname {{item.value.surname}} --admin"
-  args:
-    chdir: "{{project_path}}"
-  environment:
-    FLASK_APP: "{{project_main_controller}}.py"
-    LC_ALL: C.UTF-8
-    LANG: C.UTF-8
-  ignore_errors: yes
-  tags: createusers
-  with_dict: "{{admin_users}}"
+  block:
+    - shell: "{{ venv_path }}/bin/flask create_user --email '{{item.value.email}}' --password '{{item.value.password}}' --name  '{{item.value.name}}' --surname '{{item.value.surname}}' --organization_name '{{organization}}' --admin"
+      args:
+        chdir: "{{project_path}}"
+      environment:
+        FLASK_APP: "{{project_main_controller}}.py"
+        LC_ALL: C.UTF-8
+        LANG: C.UTF-8
+      tags: createusers
+      with_dict: "{{admin_users}}"
+  rescue:
+    - shell: "{{ venv_path }}/bin/flask create_user --email '{{item.value.email}}' --password '{{item.value.password}}' --name  '{{item.value.name}}' --surname '{{item.value.surname}}' --admin"
+      args:
+        chdir: "{{project_path}}"
+      environment:
+        FLASK_APP: "{{project_main_controller}}.py"
+        LC_ALL: C.UTF-8
+        LANG: C.UTF-8
+      tags: createusers
+      with_dict: "{{admin_users}}"
 
 - name: Create nginx hosts
-  when: env == 'production'
+  when: env != 'local'
   include_role:
     name: production.nginx
   ignore_errors: yes
 
 - name: Create supervisor process
-  when: env == 'production'
+  when: env != 'local'
   include_role:
     name: production.supervisor

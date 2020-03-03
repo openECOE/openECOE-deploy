@@ -1,6 +1,4 @@
-supervisor_unix_http_server_enable: true
 #supervisor_unix_http_server_socket_path: /var/run/supervisord.sock
-supervisor_unix_http_server_socket_path: /var/run/supervisord.sock
 
 supervisor_programs:
   - name: '{{project_main_controller}}'
@@ -12,5 +10,7 @@ supervisor_programs:
       autorestart=true
       stopasgroup=true
       killasgroup=true
+      stderr_logfile=/var/log/{{project_main_controller}}-err.log
+      stdout_logfile=/var/log/{{project_main_controller}}-out.log
       stopsignal=INT
       environment = FLASK_APP="{{project_main_controller}}"

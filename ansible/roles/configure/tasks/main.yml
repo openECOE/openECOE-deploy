@@ -1,26 +1,54 @@
 ---
-# configure it
+- name: Define GITHUB_API_TOKEN if it defined
+  block:
+    - include_role:
+        name: franklinkim.environment
+      vars:
+        environment_config:
+          GITHUB_API_TOKEN: "{{github_token}}"
+    - set_fact:
+        git_pull_github_token: "{{ ansible_env.GITHUB_API_TOKEN}}"
+  when: github_token is defined
 
-#  - name: set hostname
-#    hostname: name={{hostname}}
+- name: Try to recover GITHUB_API_TOKEN environment
+  set_fact:
+    git_pull_github_token: "{{ ansible_env.GITHUB_API_TOKEN}}"
+  when: "'GITHUB_API_TOKEN' in ansible_env"
+  no_log: true
 
-  - name: put hosts in /etc/hosts
-    lineinfile: "dest=/etc/hosts line='127.0.0.1 {{hostname}} {{app_fqdn}}'"
+- name: Create directory for domain if it does not exist
+  file:
+    path: "{{base_path}}"
+    state: directory
+    mode: '0755'
 
-  - name: get github.com public key
-    command: /usr/bin/ssh-keyscan github.com
-    check_mode: no
-    register: github_keyscan
+- name: Generate random secret key if it does not exist
+  set_fact:
+    app_secret_key: "{{ lookup('password', '/tmp/passwordfile length=32 chars=ascii_letters,digits') }}"
+  when: app_secret_key is undefined
 
-  - name: github key is recognized
-    lineinfile: dest=/etc/ssh/ssh_known_hosts
-                create=yes
-                regexp='^github.com'
-                line="{{ github_keyscan.stdout }}"
+- name: put {{app_fqdn}} in /etc/hosts
+  lineinfile: "dest=/etc/hosts line='127.0.0.1 {{hostname}} {{app_fqdn}}'"
 
-  - name: keep ssh agent forwarding under sudo
-    lineinfile: dest=/etc/sudoers
-                insertafter='^Defaults'
-                line='Defaults env_keep += "SSH_AUTH_SOCK"'
-                state=present
-                validate='visudo -cf %s'
+
+
+#- name: get github.com public key
+#  command: /usr/bin/ssh-keyscan github.com
+#  check_mode: no
+#  register: github_keyscan
+#
+#- name: github key is recognized
+#  lineinfile: dest=/etc/ssh/ssh_known_hosts
+#      create=yes
+#      regexp='^github.com'
+#      line="{{ github_keyscan.stdout }}"
+#
+#- name: keep ssh agent forwarding under sudo
+#  lineinfile: dest=/etc/sudoers
+#      insertafter='^Defaults'
+#      line='Defaults env_keep += "SSH_AUTH_SOCK"'
+#      state=present
+#      validate='visudo -cf %s'
+
+- name: Save configuration tasks
+  include_tasks: save.yml

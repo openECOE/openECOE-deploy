@@ -1,38 +1,30 @@
 ---
-base_path: /opt
+routes:
+  protocol: "http"
+  webui:
+    host: "{{domain}}"
+    port: 80
+    port_ssl: 443
+  api:
+    host: "api.{{domain}}"
+    port: 80
+    port_ssl: 443
+  chrono:
+    host: "chrono.{{domain}}"
+    port: 80
+    port_ssl: 443
 
-app_secret_key: '12345678901234567890123456789012'
-app_workers: 1
+chrono_route: "{{routes.protocol}}://{{routes.chrono.host}}:{{routes.chrono.port}}"
+
+# App environment
+base_path: "/opt/{{domain}}"
+database: "openECOE"
+
+#Supervisor parameters
+supervisor_user: root
+supervisor_password: '1234567890'
 
 supervisor_inet_http_server_enable: true
 supervisor_inet_http_server_port: '*:9001'
 
-supervisor_started: false
-nginx_remove_default_vhost: true
-
-organization: "Universidad Miguel Hernandez"
-domain: openecoe.umh.es
-
-admin_users:
-  admin:
-    email: "admin@{{domain}}"
-    name: Admin
-    surname: OpenECOE
-    password: 1234567890
-
-database_user: "openecoe"
-database_password: "1234567890"
-
-supervisor_user: root
-supervisor_password: '1234'
-
-
-
-ansible_connection: local
-
-#Ansible connection by SSH to remote machine
-#ansible_connection: ssh
-#ansible_user: openecoe
-#ansible_port: 22
-#ansible_host: "{{domain}}"
-#ansible_ssh_private_key_file: "{{ lookup('env', 'HOME') }}/.ssh/id_rsa"
+git_owner: "openECOE"

@@ -1,0 +1,7 @@
+---
+# configuration for testing
+
+# API Environment Config
+api_auth: False
+bcrypt_log_rounds: 4
+sqlalchemy_track_modifications: False

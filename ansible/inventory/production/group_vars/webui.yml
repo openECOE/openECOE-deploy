@@ -1,0 +1,7 @@
+---
+# configuration for production
+git_branch: master
+
+# Production Enviroment Config
+app_debug: False
+app_testing: False
