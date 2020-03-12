@@ -21,6 +21,13 @@
     state: present
     update_cache: yes
 
+- name: make sure 'setuptools' package is installed
+  pip:
+    name: setuptools == 44
+    virtualenv: "{{ venv_path }}"
+    virtualenv_python: python3
+  tags: [python]
+
 - name: Create virtualenv
   pip:
     virtualenv: "{{ venv_path }}"

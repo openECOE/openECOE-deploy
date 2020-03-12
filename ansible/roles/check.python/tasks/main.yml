@@ -19,9 +19,3 @@
       name: virtualenv
       executable: pip3
     tags: [python]
-
-  - name: make sure 'setuptools' package is installed
-    pip:
-      name: setuptools
-      executable: pip3
-    tags: [python]
