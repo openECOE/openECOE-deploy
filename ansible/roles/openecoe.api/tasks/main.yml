@@ -56,25 +56,40 @@
   tags: upgradeAPIDB
 
 - name: Create Organization '{{organization}}'
-  shell: "{{ venv_path }}/bin/flask create_orga --name '{{organization}}'"
-  args:
-    chdir: "{{project_path}}"
-  environment:
-    FLASK_APP: "{{project_main_controller}}.py"
-    LC_ALL: C.UTF-8
-    LANG: C.UTF-8
-  tags: createorga
+  block:
+    - shell: "{{ venv_path }}/bin/flask create_orga --name '{{organization}}'"
+      args:
+        chdir: "{{project_path}}"
+      environment:
+        FLASK_APP: "{{project_main_controller}}.py"
+        LC_ALL: C.UTF-8
+        LANG: C.UTF-8
+      tags: createorga
+  rescue:
+    - debug:
+        msg: "Organization exists"
 
 - name: Create default admin users
-  shell: "{{ venv_path }}/bin/flask create_user --email '{{item.value.email}}' --password '{{item.value.password}}' --name  '{{item.value.name}}' --surname '{{item.value.surname}}' --organization_name '{{organization}}' --admin"
-  args:
-    chdir: "{{project_path}}"
-  environment:
-    FLASK_APP: "{{project_main_controller}}.py"
-    LC_ALL: C.UTF-8
-    LANG: C.UTF-8
-  tags: createusers
-  with_dict: "{{admin_users}}"
+  block:
+    - shell: "{{ venv_path }}/bin/flask create_user --email '{{item.value.email}}' --password '{{item.value.password}}' --name  '{{item.value.name}}' --surname '{{item.value.surname}}' --organization_name '{{organization}}' --admin"
+      args:
+        chdir: "{{project_path}}"
+      environment:
+        FLASK_APP: "{{project_main_controller}}.py"
+        LC_ALL: C.UTF-8
+        LANG: C.UTF-8
+      tags: createusers
+      with_dict: "{{admin_users}}"
+  rescue:
+    - shell: "{{ venv_path }}/bin/flask create_user --email '{{item.value.email}}' --password '{{item.value.password}}' --name  '{{item.value.name}}' --surname '{{item.value.surname}}' --admin"
+      args:
+        chdir: "{{project_path}}"
+      environment:
+        FLASK_APP: "{{project_main_controller}}.py"
+        LC_ALL: C.UTF-8
+        LANG: C.UTF-8
+      tags: createusers
+      with_dict: "{{admin_users}}"
 
 - name: Create nginx hosts
   when: env != 'local'
