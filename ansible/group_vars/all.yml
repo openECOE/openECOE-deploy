@@ -11,8 +11,8 @@ routes:
     port_ssl: 443
   chrono:
     host: "chrono.{{domain}}"
-    port: 6080
-    port_ssl: 6443
+    port: 80
+    port_ssl: 443
 
 chrono_route: "{{routes.protocol}}://{{routes.chrono.host}}:{{routes.chrono.port}}"
 
