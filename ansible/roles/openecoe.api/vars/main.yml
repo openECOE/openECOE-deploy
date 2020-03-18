@@ -11,11 +11,14 @@ mysql_databases:
   - name: "{{database_name}}"
     encoding: latin1
     collation: latin1_general_ci
+  - name: "{{database_name}}_test"
+    encoding: latin1
+    collation: latin1_general_ci
 mysql_users:
   - name: "{{database_user}}"
     host: "%"
     password: "{{database_password}}"
-    priv: "{{database_name}}.*:ALL"
+    priv: "{{database_name}}%.*:ALL"
 
 nginx_vhosts:
   - listen: "{{nginx_port}}"
