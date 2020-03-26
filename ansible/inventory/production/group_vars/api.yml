@@ -9,3 +9,5 @@ app_debug: False
 app_testing: False
 bcrypt_log_rounds: 13
 sqlalchemy_track_modifications: False
+
+api_redis_loglevel: "debug"
