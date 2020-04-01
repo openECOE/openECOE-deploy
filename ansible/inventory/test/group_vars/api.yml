@@ -7,3 +7,4 @@ bcrypt_log_rounds: 13
 sqlalchemy_track_modifications: Fals
 
 api_redis_loglevel: "notice"
+log_to_stdout: True

@@ -7,3 +7,4 @@ bcrypt_log_rounds: 4
 sqlalchemy_track_modifications: False
 
 api_redis_loglevel: "debug"
+log_to_stdout: True
