@@ -74,15 +74,19 @@
       tags: createusers
       with_dict: "{{admin_users}}"
   rescue:
-    - shell: "{{ venv_path }}/bin/flask create_user --email '{{item.value.email}}' --password '{{item.value.password}}' --name  '{{item.value.name}}' --surname '{{item.value.surname}}' --admin"
-      args:
-        chdir: "{{project_path}}"
-      environment:
-        FLASK_APP: "{{project_main_controller}}.py"
-        LC_ALL: C.UTF-8
-        LANG: C.UTF-8
-      tags: createusers
-      with_dict: "{{admin_users}}"
+    - block:
+        - shell: "{{ venv_path }}/bin/flask create_user --email '{{item.value.email}}' --password '{{item.value.password}}' --name  '{{item.value.name}}' --surname '{{item.value.surname}}' --admin"
+          args:
+            chdir: "{{project_path}}"
+          environment:
+            FLASK_APP: "{{project_main_controller}}.py"
+            LC_ALL: C.UTF-8
+            LANG: C.UTF-8
+          tags: createusers
+          with_dict: "{{admin_users}}"
+      rescue:
+        - debug:
+            msg: "User exists"
 
 - name: Create nginx hosts
   when: env != 'local'

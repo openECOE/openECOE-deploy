@@ -22,6 +22,6 @@
 
   - name: make sure 'setuptools' package is installed
     pip:
-      name: setuptools
+      name: setuptools>41,<46
       executable: pip3
     tags: [python]
